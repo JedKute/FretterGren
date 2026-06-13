@@ -12,12 +12,12 @@ const { exec } = require('child_process');
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
-// Get the directory where the executable is located
+// Get the directory where the executable/script is located
 const getAppDir = () => {
-    if (process.argv[0].endsWith('.exe') || process.argv[0].endsWith('.EXE')) {
-        return path.dirname(process.argv[0]);
-    }
-    return path.dirname(__filename || process.cwd());
+    // When run as EXE (pkg), argv[0] is the exe path
+    // When run as node script, argv[1] is the script path
+    // __filename works for both
+    return path.dirname(__filename || process.argv[1] || process.cwd());
 };
 
 const APP_DIR = getAppDir();
