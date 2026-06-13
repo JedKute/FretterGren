@@ -1,0 +1,121 @@
+{
+  "name": "FretMaster - Interactive Guitar Coach",
+  "short_name": "FretMaster",
+  "description": "Interactive guitar coach with AI-powered feedback and real-time audio analysis",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#6200EE",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "music", "entertainment"],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Home screen with lesson selection"
+    },
+    {
+      "src": "/screenshots/practice.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Practice mode with real-time feedback"
+    },
+    {
+      "src": "/screenshots/progress.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Progress tracking dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start Practice",
+      "short_name": "Practice",
+      "description": "Start a new practice session",
+      "url": "/practice",
+      "icons": [{ "src": "/icons/practice.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "My Progress",
+      "short_name": "Progress",
+      "description": "View your learning progress",
+      "url": "/progress",
+      "icons": [{ "src": "/icons/progress.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Lessons",
+      "short_name": "Lessons",
+      "description": "Browse available lessons",
+      "url": "/lessons",
+      "icons": [{ "src": "/icons/lessons.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.fretmaster.guitarcoach",
+      "id": "com.fretmaster.guitarcoach"
+    },
+    {
+      "platform": "windows",
+      "url": "ms-windows-store://pdp/?ProductId=9NBLGGH4QNXQ",
+      "id": "FretMaster.GuitarCoach"
+    }
+  ],
+  "prefer_related_applications": false
+}

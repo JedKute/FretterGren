@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+         xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+         xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+         IgnorableNamespaces="uap uap5 desktop rescap">
+
+  <Identity Name="FretMaster.GuitarCoach"
+            Publisher="CN=FretMaster"
+            Version="1.0.0.0" />
+
+  <Properties>
+    <DisplayName>FretMaster - Interactive Guitar Coach</DisplayName>
+    <PublisherDisplayName>FretMaster</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+    <Resource uap:Scale="100" />
+    <Resource uap:Scale="125" />
+    <Resource uap:Scale="150" />
+    <Resource uap:Scale="200" />
+    <Resource uap:Scale="400" />
+  </Resources>
+
+  <Applications>
+    <Application Id="FretMaster"
+                 Executable="$targetnametoken$.exe"
+                 EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements DisplayName="FretMaster - Interactive Guitar Coach"
+                          Square150x150Logo="Assets\Square150x150Logo.png"
+                          Square44x44Logo="Assets\Square44x44Logo.png"
+                          Description="Interactive guitar coach with AI-powered feedback"
+                          BackgroundColor="#121212">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"
+                         Square71x71Logo="Assets\Square71x71Logo.png"
+                         Square310x310Logo="Assets\Square310x310Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#121212" />
+        <uap5:InitialRotationPreference>
+          <uap5:Rotation Preference="landscape" />
+          <uap5:Rotation Preference="landscapeFlipped" />
+        </uap5:InitialRotationPreference>
+      </uap:VisualElements>
+
+      <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="fretmaster">
+            <uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
+          </uap:Protocol>
+        </uap:Extension>
+
+        <desktop:Extension Category="windows.fullTrustProcess" Executable="FretMaster.exe" />
+
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="fretmaster-session">
+            <uap:SupportedFileTypes>
+              <uap:FileType>.fretmaster</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:Logo>Assets\Square44x44Logo.png</uap:Logo>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+      </Extensions>
+
+      <uap5:CustomInstallFolder Name="FretMaster" />
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <Capability Name="internetClientServer" />
+    <Capability Name="privateNetworkClientServer" />
+    <Capability Name="microphone" />
+    <Capability Name="musicLibrary" />
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+
+</Package>

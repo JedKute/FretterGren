@@ -1,0 +1,174 @@
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+
+namespace FretMaster
+{
+    static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            string appDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string serverPath = Path.Combine(appDir, "server.js");
+            string nodePath = FindNodeExecutable();
+
+            if (nodePath == null)
+            {
+                MessageBox.Show(
+                    "Node.js is required to run FretMaster.\n\n" +
+                    "Please install Node.js from: https://nodejs.org\n\n" +
+                    "After installing, restart FretMaster.",
+                    "FretMaster - Node.js Required",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
+
+            if (!File.Exists(serverPath))
+            {
+                MessageBox.Show(
+                    "Server files not found.\n\n" +
+                    "Please ensure server.js is in the same directory as FretMaster.exe",
+                    "FretMaster - Files Missing",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
+
+            // Start the server
+            try
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = nodePath,
+                    Arguments = "\"" + serverPath + "\"",
+                    WorkingDirectory = appDir,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+
+                Process serverProcess = Process.Start(startInfo);
+
+                // Wait a moment for server to start
+                System.Threading.Thread.Sleep(2000);
+
+                // Open browser
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "http://localhost:3000",
+                    UseShellExecute = true
+                });
+
+                // Show tray icon
+                Application.Run(new FretMasterTrayIcon(serverProcess));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error starting FretMaster:\n\n" + ex.Message,
+                    "FretMaster - Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        static string FindNodeExecutable()
+        {
+            // Check common locations
+            string[] possiblePaths = new string[]
+            {
+                @"C:\Program Files\nodejs\node.exe",
+                @"C:\Program Files (x86)\nodejs\node.exe",
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Programs\nodejs\node.exe"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"nodejs\node.exe")
+            };
+
+            foreach (string path in possiblePaths)
+            {
+                if (File.Exists(path))
+                    return path;
+            }
+
+            // Try to find in PATH
+            string pathEnv = Environment.GetEnvironmentVariable("PATH") ?? "";
+            string[] paths = pathEnv.Split(';');
+            foreach (string dir in paths)
+            {
+                string nodePath = Path.Combine(dir.Trim(), "node.exe");
+                if (File.Exists(nodePath))
+                    return nodePath;
+            }
+
+            return null;
+        }
+    }
+
+    public class FretMasterTrayIcon : ApplicationContext
+    {
+        private NotifyIcon trayIcon;
+        private Process serverProcess;
+
+        public FretMasterTrayIcon(Process process)
+        {
+            serverProcess = process;
+
+            trayIcon = new NotifyIcon
+            {
+                Icon = SystemIcons.Application,
+                Text = "FretMaster - Running on port 3000",
+                Visible = true,
+                ContextMenuStrip = new ContextMenuStrip()
+            };
+
+            trayIcon.ContextMenuStrip.Items.Add("Open FretMaster", null, (s, e) => OpenBrowser());
+            trayIcon.ContextMenuStrip.Items.Add("-");
+            trayIcon.ContextMenuStrip.Items.Add("Exit", null, (s, e) => Exit());
+
+            trayIcon.DoubleClick += (s, e) => OpenBrowser();
+
+            trayIcon.ShowBalloonTip(3000, "FretMaster", "Server started at http://localhost:3000", ToolTipIcon.Info);
+        }
+
+        void OpenBrowser()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "http://localhost:3000",
+                UseShellExecute = true
+            });
+        }
+
+        void Exit()
+        {
+            if (serverProcess != null && !serverProcess.HasExited)
+            {
+                serverProcess.Kill();
+            }
+            trayIcon.Visible = false;
+            Application.Exit();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (trayIcon != null) trayIcon.Dispose();
+                if (serverProcess != null) serverProcess.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

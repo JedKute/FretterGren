@@ -1,0 +1,72 @@
+{
+  "name": "fretmaster-guitar-coach",
+  "version": "1.0.0",
+  "description": "Interactive guitar coach with AI-powered feedback and real-time audio analysis",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "tsc --noEmit",
+    "build:android": "bash build-android.sh",
+    "build:windows": "powershell -ExecutionPolicy Bypass -File build-windows.ps1",
+    "build:pwa": "vite build && npm run generate-icons",
+    "generate-icons": "node scripts/generate-icons.cjs",
+    "package:android": "npm run build && bash build-android.sh",
+    "package:windows": "npm run build && powershell -ExecutionPolicy Bypass -File build-windows.ps1",
+    "store:validate": "node scripts/validate-store.cjs"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.4.0",
+    "@fontsource-variable/geist": "^5.2.8",
+    "@google/genai": "^1.29.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "canvas-confetti": "^1.9.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.38.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "shadcn": "^4.2.0",
+    "tailwind-merge": "^3.5.0",
+    "tone": "^15.1.22",
+    "tw-animate-css": "^1.4.0",
+    "vite": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "autoprefixer": "^10.4.21",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  },
+  "author": "FretMaster",
+  "license": "MIT",
+  "keywords": [
+    "guitar",
+    "music",
+    "education",
+    "AI",
+    "audio-analysis",
+    "chord-recognition",
+    "practice",
+    "lessons"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fretmaster/guitar-coach"
+  },
+  "bugs": {
+    "url": "https://github.com/fretmaster/guitar-coach/issues"
+  },
+  "homepage": "https://fretmaster.app"
+}

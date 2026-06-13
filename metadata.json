@@ -1,0 +1,8 @@
+{
+  "name": "Remix: FretMaster: Interactive Guitar Coach",
+  "description": "A comprehensive guitar learning platform featuring interactive fretboards, real-time tuning, AI-powered fingering analysis, and structured lessons for all skill levels.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}
