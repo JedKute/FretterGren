@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "FretMaster"
-include ':app'
+include(":app")
