@@ -100,19 +100,19 @@ pause
     Write-Host "Created launcher: $launcherPath" -ForegroundColor Green
 }
 
-# Create Android build package
-Write-Host ""
-Write-Host "Creating Android build package..." -ForegroundColor Cyan
-
-$androidDir = Join-Path $PSScriptRoot "..\android"
-$androidZip = Join-Path $OutputDir "FretMaster-Android.zip"
-
-if (Test-Path $androidDir) {
-    Compress-Archive -Path "$androidDir\*" -DestinationPath $androidZip -Force
-    Write-Host "Created Android package: $androidZip" -ForegroundColor Green
-} else {
-    Write-Host "Android directory not found" -ForegroundColor Yellow
-}
+# Create Android build package - SKIPPED (Android support removed)
+# Write-Host ""
+# Write-Host "Creating Android build package..." -ForegroundColor Cyan
+# 
+# $androidDir = Join-Path $PSScriptRoot "..\android"
+# $androidZip = Join-Path $OutputDir "FretMaster-Android.zip"
+# 
+# if (Test-Path $androidDir) {
+#     Compress-Archive -Path "$androidDir\*" -DestinationPath $androidZip -Force
+#     Write-Host "Created Android package: $androidZip" -ForegroundColor Green
+# } else {
+#     Write-Host "Android directory not found" -ForegroundColor Yellow
+# }
 
 # Create Windows build package
 Write-Host ""
@@ -126,6 +126,30 @@ if (Test-Path $windowsDir) {
     Write-Host "Created Windows package: $windowsZip" -ForegroundColor Green
 } else {
     Write-Host "Windows directory not found" -ForegroundColor Yellow
+}
+
+# Copy web app assets (dist/) to installer output for EXE
+Write-Host ""
+Write-Host "Copying web app assets to installer output..." -ForegroundColor Cyan
+
+$distDir = Join-Path $PSScriptRoot "..\dist"
+$distDirResolved = Resolve-Path $distDir
+$OutputDirResolved = Resolve-Path $OutputDir
+
+if (Test-Path $distDirResolved) {
+    # Copy all files from dist to output directory
+    Get-ChildItem -Path $distDirResolved -Recurse -File | ForEach-Object {
+        $relativePath = $_.FullName.Substring($distDirResolved.Path.Length + 1)
+        $targetPath = Join-Path $OutputDirResolved $relativePath
+        $targetDir = Split-Path $targetPath -Parent
+        if (-not (Test-Path $targetDir)) {
+            New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
+        }
+        Copy-Item $_.FullName -Destination $targetPath -Force
+    }
+    Write-Host "Copied web app assets from dist/ to output" -ForegroundColor Green
+} else {
+    Write-Host "dist directory not found - web app not built?" -ForegroundColor Yellow
 }
 
 # Create website package
@@ -160,6 +184,5 @@ if (Test-Path $OutputDir) {
 Write-Host ""
 Write-Host "To install FretMaster:" -ForegroundColor Yellow
 Write-Host "  1. Run FretMaster-Setup.bat (Windows)" -ForegroundColor White
-Write-Host "  2. Install FretMaster-Android.apk (Android)" -ForegroundColor White
-Write-Host "  3. Visit the website (Web)" -ForegroundColor White
+Write-Host "  2. Visit the website (Web)" -ForegroundColor White
 Write-Host ""
