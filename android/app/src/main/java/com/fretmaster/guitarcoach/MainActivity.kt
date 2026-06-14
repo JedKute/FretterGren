@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
         settings.databaseEnabled = true
-        settings.setAppCacheEnabled(true)
-        settings.setAppCachePath(cacheDir.absolutePath)
+        // AppCache deprecated in API 33+, use standard cache mode
+        settings.cacheMode = WebSettings.LOAD_DEFAULT
         settings.allowFileAccess = true
         settings.allowContentAccess = true
         settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             override fun onReceivedError(view: WebView?, request: android.webkit.WebResourceRequest?, error: android.webkit.WebResourceError?) {
                 super.onReceivedError(view, request, error)
                 binding.progressBar.visibility = android.view.View.GONE
-                if (error != null && error.errorCode == android.webkit.WebResourceError.ERROR_FILE_NOT_FOUND) {
+                if (error != null && error.errorCode == WebResourceError.ERROR_FILE_NOT_FOUND) {
                     loadOfflinePage()
                 }
             }
