@@ -21,12 +21,6 @@ android {
     }
 
     signingConfigs {
-        create("debug") {
-            storeFile = file("debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-        }
         create("release") {
             storeFile = file("release.keystore")
             storePassword = System.getenv("KEYSTORE_PASSWORD") ?: ""
@@ -44,7 +38,7 @@ android {
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
-            signingConfig = signingConfigs.getByName("debug")
+            // Uses default debug signing config automatically
         }
     }
 
