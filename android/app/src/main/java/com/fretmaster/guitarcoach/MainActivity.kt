@@ -2,6 +2,7 @@ package com.fretmaster.guitarcoach
 
 import android.os.Bundle
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 binding.progressBar.visibility = android.view.View.GONE
             }
 
-            override fun onReceivedError(view: WebView?, request: android.webkit.WebResourceRequest?, error: android.webkit.WebResourceError?) {
+            override fun onReceivedError(view: WebView?, request: android.webkit.WebResourceRequest?, error: WebResourceError?) {
                 super.onReceivedError(view, request, error)
                 binding.progressBar.visibility = android.view.View.GONE
                 if (error != null && error.errorCode == WebResourceError.ERROR_FILE_NOT_FOUND) {
