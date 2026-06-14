@@ -60,19 +60,20 @@ jobs:
           cd android
           ./gradlew :app:assembleDebug --no-daemon
 
-      - name: Build Release APK
-        run: |
-          cd android
-          ./gradlew :app:assembleRelease --no-daemon
-
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: fretmaster-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
-      - name: Upload Release APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: fretmaster-release-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+      # Release build skipped - requires release keystore
+      # - name: Build Release APK
+      #   run: |
+      #     cd android
+      #     ./gradlew :app:assembleRelease --no-daemon
+      # 
+      # - name: Upload Release APK
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: fretmaster-release-apk
+      #     path: android/app/build/outputs/apk/release/app-release.apk
