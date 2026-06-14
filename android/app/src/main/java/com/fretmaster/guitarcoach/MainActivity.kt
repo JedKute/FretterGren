@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             override fun onReceivedError(view: WebView?, request: android.webkit.WebResourceRequest?, error: WebResourceError?) {
                 super.onReceivedError(view, request, error)
                 binding.progressBar.visibility = android.view.View.GONE
-                if (error != null && error.errorCode == WebResourceError.ERROR_FILE_NOT_FOUND) {
+                if (error != null && error.errorCode == ERROR_FILE_NOT_FOUND) {
                     loadOfflinePage()
                 }
             }
