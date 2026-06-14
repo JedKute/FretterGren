@@ -1,0 +1,15 @@
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\bin\Release\net6.0-windows\FretMaster.exe
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\bin\Release\net6.0-windows\FretMaster.deps.json
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\bin\Release\net6.0-windows\FretMaster.runtimeconfig.json
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\bin\Release\net6.0-windows\FretMaster.dll
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\bin\Release\net6.0-windows\FretMaster.pdb
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.AssemblyInfoInputs.cache
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.AssemblyInfo.cs
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.sourcelink.json
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.dll
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\refint\FretMaster.dll
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.pdb
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.genruntimeconfig.cache
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\ref\FretMaster.dll
