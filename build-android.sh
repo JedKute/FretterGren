@@ -12,7 +12,22 @@ npm run build
 # Copy web assets to Android
 echo "📱 Copying web assets to Android..."
 mkdir -p android/app/src/main/assets
+
+# Copy dist files
+echo "📂 Copying build output..."
 cp -r dist/* android/app/src/main/assets/
+
+# Copy images from public directory to Android
+echo "🖼️  Copying images..."
+if [ -d "public" ]; then
+    find public -type f | while read file; do
+        relative_path=${file#public/}
+        target_path="android/app/src/main/assets/images/$relative_path"
+        mkdir -p "$(dirname "$target_path")"
+        cp "$file" "$target_path"
+        echo "  Copied: $relative_path" >&2
+    done
+fi
 
 # Create Android icons (placeholder - replace with actual icons)
 echo "🎨 Generating Android icons..."

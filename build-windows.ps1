@@ -19,6 +19,14 @@ if (-not (Test-Path $assetsDir)) {
     New-Item -ItemType Directory -Path $assetsDir -Force | Out-Null
 }
 
+# Copy images from public directory to windows/Assets
+Write-Host "Copying images..." -ForegroundColor Cyan
+if (Test-Path "public") {
+    # Copy all files from public to windows/Assets
+    Copy-Item "public\*" -Destination "$assetsDir\" -Recurse -Force
+    Write-Host "  Copied all files from public directory" -ForegroundColor Gray
+}
+
 # Create placeholder icons (replace with actual icons)
 Write-Host "Generating Windows icons..." -ForegroundColor Cyan
 
