@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -251,7 +251,7 @@ export default function App() {
                           transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
                           className="text-6xl md:text-7xl"
                         >
-                          🎸
+                          ðŸŽ¸
                         </motion.div>
                       </div>
                       <div className="text-center md:text-left flex-1">
@@ -299,7 +299,7 @@ export default function App() {
                           <Music2 className="w-24 h-24" />
                         </div>
                         <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"Sometimes you want to give up with the guitar, you'll hate the guitar. But if you stick with it, you're gonna be rewarded."</p>
-                        <p className="font-bold text-orange-500 relative z-10">— Jimi Hendrix</p>
+                        <p className="font-bold text-orange-500 relative z-10">â€” Jimi Hendrix</p>
                       </motion.div>
                       
                       <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl relative overflow-hidden group">
@@ -307,15 +307,15 @@ export default function App() {
                           <Music2 className="w-24 h-24" />
                         </div>
                         <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"The beautiful thing about learning is nobody can take it away from you."</p>
-                        <p className="font-bold text-orange-500 relative z-10">— B.B. King</p>
+                        <p className="font-bold text-orange-500 relative z-10">â€” B.B. King</p>
                       </motion.div>
                       
                       <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                           <Music2 className="w-24 h-24" />
                         </div>
-                        <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"I play the guitar because it lets me speak the things I can’t say in words."</p>
-                        <p className="font-bold text-orange-500 relative z-10">— Stevie Ray Vaughan</p>
+                        <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"I play the guitar because it lets me speak the things I canâ€™t say in words."</p>
+                        <p className="font-bold text-orange-500 relative z-10">â€” Stevie Ray Vaughan</p>
                       </motion.div>
                       
                       <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl relative overflow-hidden group">
@@ -323,7 +323,7 @@ export default function App() {
                           <Music2 className="w-24 h-24" />
                         </div>
                         <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"If you want to play the guitar, play it. Don't let anyone tell you you can't do it."</p>
-                        <p className="font-bold text-orange-500 relative z-10">— Eddie Van Halen</p>
+                        <p className="font-bold text-orange-500 relative z-10">â€” Eddie Van Halen</p>
                       </motion.div>
                     </div>
                   </div>
@@ -339,7 +339,7 @@ export default function App() {
                         className="border-zinc-800 text-zinc-400 hover:text-white"
                         onClick={() => setActiveLesson(null)}
                       >
-                        ← Back to Lessons
+                        â† Back to Lessons
                       </Button>
                       
                       {activeLesson === 'beg-1' && (
@@ -386,12 +386,12 @@ export default function App() {
                           
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="bg-zinc-900/50 p-6 rounded-3xl border border-zinc-800 space-y-4 text-center">
-                              <h3 className="text-xl font-bold text-white">1. The Downstroke (↓)</h3>
+                              <h3 className="text-xl font-bold text-white">1. The Downstroke (â†“)</h3>
                               <p className="text-zinc-400">Drive downwards across the strings. Keep your wrist loose and let gravity do the work. The downstroke usually lands on the strong beats (1, 2, 3, 4).</p>
                               <img src="/src/assets/images/guitar_downstroke_1781229161369.jpg" className="rounded-xl w-full object-cover aspect-video" alt="Downstroke" />
                             </div>
                             <div className="bg-zinc-900/50 p-6 rounded-3xl border border-zinc-800 space-y-4 text-center">
-                              <h3 className="text-xl font-bold text-white">2. The Upstroke (↑)</h3>
+                              <h3 className="text-xl font-bold text-white">2. The Upstroke (â†‘)</h3>
                               <p className="text-zinc-400">Brush upwards against the bottom 3-4 strings. It should feel lighter than a downstroke. Upstrokes typically fall on the weak "and" beats between numbers.</p>
                               <img src="/src/assets/images/guitar_upstroke_1781229177606.jpg" className="rounded-xl w-full object-cover aspect-video" alt="Upstroke" />
                             </div>
@@ -404,13 +404,13 @@ export default function App() {
                               <div className="bg-[#0f0f0f] border border-zinc-800 hover:border-zinc-700 transition p-6 rounded-3xl text-center space-y-4 shadow-lg shadow-black/50">
                                 <h4 className="text-lg font-bold text-orange-500">The Campfire (Universal Pattern)</h4>
                                 <div className="flex justify-center items-center gap-2 sm:gap-4 text-xl sm:text-3xl font-black text-white py-6 bg-zinc-900 rounded-2xl">
-                                  <span>↓</span>
-                                  <span>↓</span>
-                                  <span>↑</span>
-                                  <span className="text-zinc-700 px-2">—</span>
-                                  <span>↑</span>
-                                  <span>↓</span>
-                                  <span>↑</span>
+                                  <span>â†“</span>
+                                  <span>â†“</span>
+                                  <span>â†‘</span>
+                                  <span className="text-zinc-700 px-2">â€”</span>
+                                  <span>â†‘</span>
+                                  <span>â†“</span>
+                                  <span>â†‘</span>
                                 </div>
                                 <p className="text-zinc-300 font-mono">D - D - U - (miss) - U - D - U</p>
                                 <p className="text-sm text-zinc-500 my-2 text-left">The most popular strumming pattern in existence. Instead of a downstroke on beat 3, your hand "misses" the strings, creating a syncopated groove.</p>
@@ -419,13 +419,13 @@ export default function App() {
                               <div className="bg-[#0f0f0f] border border-zinc-800 hover:border-zinc-700 transition p-6 rounded-3xl text-center space-y-4 shadow-lg shadow-black/50">
                                 <h4 className="text-lg font-bold text-orange-500">Four on the Floor (Straight 8ths)</h4>
                                 <div className="flex justify-center items-center gap-2 sm:gap-4 text-xl sm:text-3xl font-black text-white py-6 bg-zinc-900 rounded-2xl">
-                                  <span>↓</span>
+                                  <span>â†“</span>
                                   <span className="text-zinc-500 text-lg px-1 text-base">&amp;</span>
-                                  <span>↓</span>
+                                  <span>â†“</span>
                                   <span className="text-zinc-500 text-lg px-1 text-base">&amp;</span>
-                                  <span>↓</span>
+                                  <span>â†“</span>
                                   <span className="text-zinc-500 text-lg px-1 text-base">&amp;</span>
-                                  <span>↓</span>
+                                  <span>â†“</span>
                                   <span className="text-zinc-500 text-lg px-1 text-base">&amp;</span>
                                 </div>
                                 <p className="text-zinc-300 font-mono">1 &amp; 2 &amp; 3 &amp; 4 &amp;</p>
@@ -435,13 +435,13 @@ export default function App() {
                               <div className="bg-[#0f0f0f] border border-zinc-800 hover:border-zinc-700 transition p-6 rounded-3xl text-center space-y-4 shadow-lg shadow-black/50">
                                 <h4 className="text-lg font-bold text-orange-500">The Waltz (3/4 Time)</h4>
                                 <div className="flex justify-center items-center gap-2 sm:gap-4 text-xl sm:text-3xl font-black text-white py-6 bg-zinc-900 rounded-2xl">
-                                  <span className="text-orange-400">↓</span>
+                                  <span className="text-orange-400">â†“</span>
                                   <span className="text-zinc-700 px-2">|</span>
-                                  <span>↓</span>
-                                  <span>↑</span>
+                                  <span>â†“</span>
+                                  <span>â†‘</span>
                                   <span className="text-zinc-700 px-2">|</span>
-                                  <span>↓</span>
-                                  <span>↑</span>
+                                  <span>â†“</span>
+                                  <span>â†‘</span>
                                 </div>
                                 <p className="text-zinc-300 font-mono">1 - 2 &amp; 3 &amp;</p>
                                 <p className="text-sm text-zinc-500 text-left">Counted in 3 instead of 4. Hit the first downstroke hard (the bass note), followed by lighter down-up strums. Gives a dancing feel.</p>
@@ -450,13 +450,13 @@ export default function App() {
                               <div className="bg-[#0f0f0f] border border-zinc-800 hover:border-zinc-700 transition p-6 rounded-3xl text-center space-y-4 shadow-lg shadow-black/50">
                                 <h4 className="text-lg font-bold text-orange-500">The Folk Driving Pattern</h4>
                                 <div className="flex justify-center items-center gap-2 sm:gap-4 text-xl sm:text-3xl font-black text-white py-6 bg-zinc-900 rounded-2xl">
-                                  <span>↓</span>
-                                  <span>↓</span>
-                                  <span>↑</span>
+                                  <span>â†“</span>
+                                  <span>â†“</span>
+                                  <span>â†‘</span>
                                   <span className="text-zinc-700 px-2">|</span>
-                                  <span>↓</span>
-                                  <span>↓</span>
-                                  <span>↑</span>
+                                  <span>â†“</span>
+                                  <span>â†“</span>
+                                  <span>â†‘</span>
                                 </div>
                                 <p className="text-zinc-300 font-mono">D - D - U - D - D - U</p>
                                 <p className="text-sm text-zinc-500 text-left">Fast and energetic. Often played with a strong emphasis on the first downstroke. Perfect for upbeat folk and country songs.</p>
@@ -852,7 +852,7 @@ export default function App() {
                                 <div className="text-white">Minor</div>
                               </div>
                               <div className="bg-zinc-800/50 p-3 rounded-lg border border-zinc-700">
-                                <div className="text-red-400 font-bold mb-1">vii°</div>
+                                <div className="text-red-400 font-bold mb-1">viiÂ°</div>
                                 <div className="text-white">Diminished</div>
                               </div>
                             </div>
@@ -1050,7 +1050,7 @@ export default function App() {
                                 <div><strong className="text-white">Flat:</strong> Lowers the note pitch by one half-step (one fret lower on guitar).</div>
                               </li>
                               <li className="flex items-start gap-3">
-                                <span className="text-2xl font-bold text-zinc-300 w-8 text-center">♮</span>
+                                <span className="text-2xl font-bold text-zinc-300 w-8 text-center">â™®</span>
                                 <div><strong className="text-white">Natural:</strong> Cancels a previous sharp or flat, returning the note to its normal pitch.</div>
                               </li>
                             </ul>
@@ -1124,7 +1124,7 @@ export default function App() {
                           </p>
                         </div>
                         <p className="text-zinc-300">
-                          You can play the notes in any order you want—it's completely flexible. Try putting the notes in one by one, set the playback style to "One by One," and slowly increase the BPM in the Virtual Guitar as you get comfortable.
+                          You can play the notes in any order you wantâ€”it's completely flexible. Try putting the notes in one by one, set the playback style to "One by One," and slowly increase the BPM in the Virtual Guitar as you get comfortable.
                         </p>
                       </CardContent>
                     </Card>
@@ -1222,7 +1222,7 @@ export default function App() {
                       </CardHeader>
                       <CardContent>
                         <p className="text-zinc-300">
-                          Your strumming hand is your engine. Keep it moving continuously in a steady down-up rhythm, even when you aren't actually hitting the strings (like on the "misses" in the universal pattern seen in the <strong>Lessons</strong> tab). Keep your wrist loose—like you're shaking water off your hand. The rhythm comes from the wrist, not the elbow.
+                          Your strumming hand is your engine. Keep it moving continuously in a steady down-up rhythm, even when you aren't actually hitting the strings (like on the "misses" in the universal pattern seen in the <strong>Lessons</strong> tab). Keep your wrist looseâ€”like you're shaking water off your hand. The rhythm comes from the wrist, not the elbow.
                         </p>
                       </CardContent>
                     </Card>
@@ -1434,4 +1434,5 @@ function ActivityItem({ title, time, onClick }: { title: string, time: string, o
     </div>
   );
 }
+
 
