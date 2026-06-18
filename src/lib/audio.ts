@@ -21,7 +21,6 @@ class AudioEngine {
   private initPromise: Promise<void> | null = null;
 
   private scriptNode: ScriptProcessorNode | null = null;
-  private captureContext: AudioContext | null = null;
   private capturedBuffers: Float32Array[][] = [[], []];
   private capturing = false;
 
@@ -133,21 +132,14 @@ class AudioEngine {
   async startRecording(): Promise<void> {
     if (this.capturing) return;
     const ctx = Tone.getContext().rawContext as AudioContext;
-    this.captureContext = ctx;
     this.capturedBuffers = [[], []];
     this.capturing = true;
 
-    Tone.getDestination().disconnect();
-
-    const bufferSize = 4096;
-    const node = ctx.createScriptProcessor(bufferSize, 2, 2);
+    const node = ctx.createScriptProcessor(4096, 2, 2);
     node.onaudioprocess = (event) => {
       if (!this.capturing) return;
-      for (let ch = 0; ch < event.inputBuffer.numberOfChannels && ch < 2; ch++) {
+      for (let ch = 0; ch < Math.min(event.inputBuffer.numberOfChannels, 2); ch++) {
         this.capturedBuffers[ch].push(new Float32Array(event.inputBuffer.getChannelData(ch)));
-      }
-      for (let ch = 0; ch < event.outputBuffer.numberOfChannels; ch++) {
-        event.outputBuffer.getChannelData(ch).set(event.inputBuffer.getChannelData(ch));
       }
     };
 
@@ -157,34 +149,21 @@ class AudioEngine {
   }
 
   async stopRecording(): Promise<Blob> {
-    if (!this.capturing || !this.scriptNode || !this.captureContext) {
+    if (!this.capturing || !this.scriptNode) {
       throw new Error('Not recording');
     }
-
     this.capturing = false;
+    await new Promise(r => setTimeout(r, 100));
 
-    return new Promise<Blob>((resolve, reject) => {
-      setTimeout(() => {
-        try {
-          if (this.scriptNode) {
-            this.scriptNode.disconnect();
-            this.scriptNode.onaudioprocess = null;
-            this.scriptNode = null;
-          }
+    const ctx = Tone.getContext().rawContext as AudioContext;
+    this.scriptNode.disconnect();
+    this.scriptNode.onaudioprocess = null;
+    this.scriptNode = null;
 
-          Tone.getDestination().connect(this.captureContext!.destination);
-
-          const sampleRate = this.captureContext!.sampleRate;
-          this.captureContext = null;
-
-          const wavBlob = this.capturedToWav(sampleRate);
-          this.capturedBuffers = [[], []];
-          resolve(wavBlob);
-        } catch (e) {
-          reject(e);
-        }
-      }, 50);
-    });
+    const sampleRate = ctx.sampleRate;
+    const wavBlob = this.capturedToWav(sampleRate);
+    this.capturedBuffers = [[], []];
+    return wavBlob;
   }
 
   cancelRecording() {
@@ -193,10 +172,6 @@ class AudioEngine {
       this.scriptNode.disconnect();
       this.scriptNode.onaudioprocess = null;
       this.scriptNode = null;
-    }
-    if (this.captureContext) {
-      Tone.getDestination().connect(this.captureContext.destination);
-      this.captureContext = null;
     }
     this.capturedBuffers = [[], []];
   }
@@ -229,8 +204,7 @@ class AudioEngine {
     const bytesPerSample = 2;
     const blockAlign = numChannels * bytesPerSample;
     const dataLength = totalSamples * blockAlign;
-    const headerLength = 44;
-    const totalLength = headerLength + dataLength;
+    const totalLength = 44 + dataLength;
 
     const wavData = new ArrayBuffer(totalLength);
     const view = new DataView(wavData);
