@@ -129,7 +129,7 @@ export const InteractiveCircle = () => {
     await audioEngine.init();
     // Assuming starting at octave 4
     const scale = getScaleNotesWithOctave(selectedKey.notes, 4);
-    audioEngine.playNote(scale[index], "4n", "piano");
+    audioEngine.playNote(scale[index], "4n");
   };
 
   const handleChordClick = async (index: number) => {
@@ -142,7 +142,7 @@ export const InteractiveCircle = () => {
     const third = scale[index + 2];
     const fifth = scale[index + 4];
     
-    audioEngine.playChord([root, third, fifth], "2n", "piano");
+    audioEngine.playChord([root, third, fifth], "2n");
   };
 
   return (

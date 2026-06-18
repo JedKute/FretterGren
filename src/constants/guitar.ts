@@ -157,13 +157,6 @@ export const LESSONS = [
     content: 'The G, C, and D chords are the building blocks of thousands of songs...',
   },
   {
-    id: 'beg-2',
-    title: 'Strumming Basics',
-    difficulty: 'Beginner',
-    description: 'Master the down-down-up-up-down pattern.',
-    content: 'Rhythm is just as important as the notes you play...',
-  },
-  {
     id: 'int-1',
     title: 'Barre Chords',
     difficulty: 'Intermediate',

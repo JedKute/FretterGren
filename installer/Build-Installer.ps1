@@ -138,16 +138,21 @@ $OutputDirResolved = Resolve-Path $OutputDir
 
 if (Test-Path $distDirResolved) {
     # Copy all files from dist to output directory
-    Get-ChildItem -Path $distDirResolved -Recurse -File | ForEach-Object {
-        $relativePath = $_.FullName.Substring($distDirResolved.Path.Length + 1)
-        $targetPath = Join-Path $OutputDirResolved $relativePath
-        $targetDir = Split-Path $targetPath -Parent
-        if (-not (Test-Path $targetDir)) {
-            New-Item -ItemType Directory -Path $targetDir -Force | Out-Null
-        }
-        Copy-Item $_.FullName -Destination $targetPath -Force
-    }
+    Copy-Item -Path "$distDirResolved\*" -Destination $OutputDirResolved -Recurse -Force -ErrorAction Stop
     Write-Host "Copied web app assets from dist/ to output" -ForegroundColor Green
+
+    # Create src/assets/images/ for hardcoded image paths in JS
+    $outImgDir = Join-Path $OutputDirResolved "src\assets\images"
+    New-Item -ItemType Directory -Path $outImgDir -Force | Out-Null
+    $srcImgDir = Join-Path $PSScriptRoot "..\src\assets\images"
+    if (Test-Path $srcImgDir) {
+        Copy-Item "$srcImgDir\*.jpg" -Destination $outImgDir -Force
+        Write-Host "Copied images to output/src/assets/images/ for app image paths" -ForegroundColor Green
+    }
+
+    # Create package.json for ESM module support (server.js uses import)
+    '{"type":"module"}' | Out-File -FilePath (Join-Path $OutputDirResolved "package.json") -Encoding ASCII
+    Write-Host "Created package.json with type:module for ESM support" -ForegroundColor Green
 } else {
     Write-Host "dist directory not found - web app not built?" -ForegroundColor Yellow
 }

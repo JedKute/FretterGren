@@ -1,11 +1,13 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Fretboard } from './Fretboard';
-import { audioEngine, InstrumentType } from '../lib/audio';
+import { audioEngine } from '../lib/audio';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { NOTES, STRINGS } from '../constants/guitar';
-import { Volume2, Music, ListMusic, Play, Square, Circle, Plus, Minus, Grid, Trash2, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Volume2, Music, ListMusic, Play, Square, Circle, Plus, Minus, Grid, Trash2, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { InstrumentCategory, EffectName, EFFECTS, getInstrumentsByCategory } from '../lib/effects';
+import { ExportPanel } from './ExportPanel';
 
 type NoteData = {
   string: number;
@@ -24,6 +26,9 @@ export const VirtualGuitar: React.FC = () => {
   const [bpm, setBpm] = useState(120);
   const [playbackStyle, setPlaybackStyle] = useState<'grouped' | 'arpeggio'>('grouped');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<InstrumentCategory>('guitars');
+  const [selectedInstrument, setSelectedInstrument] = useState<string>('acoustic');
+  const [selectedEffect, setSelectedEffect] = useState<EffectName>('clean');
 
   const currentIdxRef = useRef(0);
 
@@ -52,8 +57,8 @@ export const VirtualGuitar: React.FC = () => {
 
   const handleNoteClick = async (stringIndex: number, fret: number) => {
     await audioEngine.init();
+    await audioEngine.ensureInstrument(audioEngine.getCurrentInstrument());
 
-    // Calculate the note name
     const baseNote = STRINGS[stringIndex];
     const baseNoteIndex = NOTES.indexOf(baseNote.note);
     const noteIndex = (baseNoteIndex + fret) % 12;
@@ -66,37 +71,22 @@ export const VirtualGuitar: React.FC = () => {
 
     const newNoteData = { string: stringIndex, fret, fullNote, noteName };
 
-    if (recordingMode) {
-      setSequence(prev => {
-        const newSeq = [...prev];
-        if (!newSeq[currentStepIndex]) {
-          newSeq[currentStepIndex] = [];
-        }
-        newSeq[currentStepIndex] = [...newSeq[currentStepIndex], newNoteData];
-        return newSeq;
-      });
-    } else if (isPlaying) {
-      // Toggle note in the currently playing group for real‑time chord editing
-      setSequence(prev => {
-        const newSeq = [...prev];
-        const step = newSeq[currentStepIndex] ? [...newSeq[currentStepIndex]] : [];
-        const existingIdx = step.findIndex(n => n.string === stringIndex && n.fret === fret);
-        if (existingIdx >= 0) {
-          // Remove note
-          step.splice(existingIdx, 1);
-        } else {
-          // Add note
-          step.push(newNoteData);
-        }
-        newSeq[currentStepIndex] = step;
-        return newSeq;
-      });
-    }
+    setSequence(prev => {
+      const newSeq = [...prev];
+      if (!newSeq[currentStepIndex]) newSeq[currentStepIndex] = [];
+      const step = [...newSeq[currentStepIndex]];
+      const existingIdx = step.findIndex(n => n.string === stringIndex && n.fret === fret);
+      if (existingIdx >= 0) {
+        step[existingIdx] = newNoteData;
+      } else {
+        step.push(newNoteData);
+      }
+      newSeq[currentStepIndex] = step;
+      return newSeq;
+    });
 
-    // Add to active notes temporarily
     const newNote = { string: stringIndex, fret, label: noteName };
     setActiveNotes((prev) => {
-      // Remove any previously recorded visual flash for the same fret/string
       const filtered = prev.filter(n => n.string !== stringIndex || n.fret !== fret);
       return [...filtered, newNote];
     });
@@ -186,6 +176,81 @@ export const VirtualGuitar: React.FC = () => {
         onNoteClick={handleNoteClick}
         className="mt-8"
       />
+
+      {/* Instrument Selector */}
+      <div className="space-y-3 mt-6">
+        {/* Category Tabs */}
+        <div className="flex gap-1 bg-zinc-900/50 p-1 rounded-xl border border-zinc-800">
+          {(['guitars', 'keys', 'strings'] as InstrumentCategory[]).map(cat => (
+            <button
+              key={cat}
+              className={`flex-1 py-2 px-3 rounded-lg text-sm font-bold capitalize transition-all ${
+                selectedCategory === cat
+                  ? 'bg-orange-500 text-white shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+              onClick={async () => {
+                setSelectedCategory(cat);
+                const firstInst = getInstrumentsByCategory(cat)[0];
+                if (firstInst) {
+                  setSelectedInstrument(firstInst.id);
+                  try {
+                    await audioEngine.setInstrument(firstInst.id);
+                  } catch (e) {
+                    console.error('Failed to set instrument:', firstInst.id, e);
+                  }
+                }
+              }}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Instrument Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {getInstrumentsByCategory(selectedCategory).map(inst => (
+            <button
+              key={inst.id}
+              className={`py-2 px-3 rounded-lg text-sm font-bold transition-all border ${
+                selectedInstrument === inst.id
+                  ? 'bg-orange-500/20 border-orange-500 text-orange-500 shadow-sm'
+                  : 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200'
+              }`}
+              onClick={async () => {
+                setSelectedInstrument(inst.id);
+                try {
+                  await audioEngine.setInstrument(inst.id);
+                } catch (e) {
+                  console.error('Failed to set instrument:', inst.id, e);
+                }
+              }}
+            >
+              {inst.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Effect Selector */}
+        <div className="flex gap-2">
+          {(['clean', 'ambient', 'overdrive', 'heavy'] as EffectName[]).map(id => (
+            <button
+              key={id}
+              className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                selectedEffect === id
+                  ? 'bg-orange-500/10 border border-orange-500 text-orange-500'
+                  : 'bg-zinc-900/50 border border-zinc-800 text-zinc-500 hover:border-zinc-600'
+              }`}
+              onClick={() => {
+                setSelectedEffect(id);
+                audioEngine.setEffect(id);
+              }}
+            >
+              {EFFECTS[id].name}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
         <div className="p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
@@ -468,6 +533,11 @@ export const VirtualGuitar: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Export Section */}
+      <div className="mt-8 pt-8 border-t border-zinc-800/80">
+        <ExportPanel hasSequence={sequence.some(step => step.length > 0)} bpm={bpm} sequence={sequence} />
       </div>
     </div>
   );

@@ -7,3 +7,7 @@ dist/
 Thumbs.db
 installer/output/
 installer/*.exe
+installer/bin/
+installer/obj/
+output/
+public/samples/

@@ -19,6 +19,7 @@ export const ChordDiagram: React.FC<ChordDiagramProps> = ({ chord, name, classNa
 
   const playChord = async () => {
     await audioEngine.init();
+    await audioEngine.ensureInstrument(audioEngine.getCurrentInstrument());
     
     const notesToPlay = chord.map((fret, stringIndex) => {
       if (fret === -1) return null;
