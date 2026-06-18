@@ -7,7 +7,8 @@ import { exec } from 'child_process';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = parseInt(process.env.PORT, 10) || 3000;
+const INITIAL_PORT = parseInt(process.env.PORT, 10) || 3000;
+let currentPort = INITIAL_PORT;
 const MAX_PORT_ATTEMPTS = 100;
 const HOST = '0.0.0.0';
 
@@ -68,6 +69,8 @@ function logSuccess(message) {
     log(message, colors.green);
 }
 
+let serverStarted = false;
+
 const server = http.createServer((req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const filePath = path.join(APP_DIR, url.pathname === '/' ? 'index.html' : url.pathname);
@@ -112,6 +115,8 @@ const server = http.createServer((req, res) => {
 
 function tryListen(port) {
     server.listen(port, HOST, () => {
+        if (serverStarted) return;
+        serverStarted = true;
         const actualPort = server.address().port;
         console.log('');
         console.log(`${colors.orange}╔═══════════════════════════════════════════════════════════╗${colors.reset}`);
@@ -135,10 +140,10 @@ function tryListen(port) {
 
 server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-        const nextPort = PORT + 1;
-        if (nextPort - PORT < MAX_PORT_ATTEMPTS) {
-            logError(`Port ${PORT} is already in use, trying port ${nextPort}...`);
-            tryListen(nextPort);
+        currentPort++;
+        if (currentPort - INITIAL_PORT < MAX_PORT_ATTEMPTS) {
+            logError(`Port ${currentPort - 1} is already in use, trying port ${currentPort}...`);
+            tryListen(currentPort);
         } else {
             logError(`Could not find an available port after ${MAX_PORT_ATTEMPTS} attempts`);
             process.exit(1);
@@ -149,7 +154,7 @@ server.on('error', (err) => {
     }
 });
 
-tryListen(PORT);
+tryListen(INITIAL_PORT);
 
 process.on('SIGINT', () => {
     log('Shutting down server...', colors.yellow);

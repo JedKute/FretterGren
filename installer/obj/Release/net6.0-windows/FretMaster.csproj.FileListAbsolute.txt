@@ -13,3 +13,8 @@ C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\ins
 C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.pdb
 C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\FretMaster.genruntimeconfig.cache
 C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\obj\Release\net6.0-windows\ref\FretMaster.dll
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\output\FretMaster.exe
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\output\FretMaster.deps.json
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\output\FretMaster.runtimeconfig.json
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\output\FretMaster.dll
+C:\Users\ASUS\Downloads\OpenCode\remix_-fretmaster_-interactive-guitar-coach\installer\output\FretMaster.pdb

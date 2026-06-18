@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FretMaster")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04242cb6523b6d7878658ddc5a138fe39ce1f072")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e7764513682502d8540d131a201cbdf115642834")]
 [assembly: System.Reflection.AssemblyProductAttribute("FretMaster")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FretMaster")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
