@@ -136,11 +136,27 @@ if (Test-Path $distDirResolved) {
         Write-Host "Copied images to output/src/assets/images/ for app image paths" -ForegroundColor Green
     }
 
+    # Copy .NET launcher files (EXE + DLL + config)
+    Build-Launcher -OutputDir $OutputDirResolved
+
     # Create package.json for ESM module support (server.js uses import)
     '{"type":"module"}' | Out-File -FilePath (Join-Path $OutputDirResolved "package.json") -Encoding ASCII
     Write-Host "Created package.json with type:module for ESM support" -ForegroundColor Green
 } else {
     Write-Host "dist directory not found - web app not built?" -ForegroundColor Yellow
+}
+
+function Build-Launcher {
+    param([string]$OutputDir)
+    $scriptDir = $PSScriptRoot
+    $launcherFiles = @('FretMaster.exe', 'FretMaster.dll', 'FretMaster.deps.json', 'FretMaster.runtimeconfig.json', 'server.js')
+    foreach ($file in $launcherFiles) {
+        $src = Join-Path $scriptDir $file
+        if (Test-Path $src) {
+            Copy-Item -LiteralPath $src -Destination $OutputDir -Force
+        }
+    }
+    Write-Host "Copied launcher files to output" -ForegroundColor Green
 }
 
 # Summary
