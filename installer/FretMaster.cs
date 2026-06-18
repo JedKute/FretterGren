@@ -61,25 +61,13 @@ namespace FretMaster
 
                 Process serverProcess = Process.Start(startInfo);
                 int actualPort = 3000;
-                int timeoutMs = 8000;
-                var sw = System.Diagnostics.Stopwatch.StartNew();
-                while (!serverProcess.HasExited && sw.ElapsedMilliseconds < timeoutMs)
+                var readTask = serverProcess.StandardOutput.ReadLineAsync();
+                if (readTask.Wait(3000))
                 {
-                    var readTask = serverProcess.StandardOutput.ReadLineAsync();
-                    int remainingMs = Math.Max(100, timeoutMs - (int)sw.ElapsedMilliseconds);
-                    if (readTask.Wait(remainingMs))
+                    string line = readTask.Result;
+                    if (line != null && line.StartsWith("FRETMASTER_PORT="))
                     {
-                        string line = readTask.Result;
-                        if (line == null) break;
-                        if (line.StartsWith("FRETMASTER_PORT="))
-                        {
-                            int.TryParse(line.Substring("FRETMASTER_PORT=".Length).Trim(), out actualPort);
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
+                        int.TryParse(line.Substring("FRETMASTER_PORT=".Length).Trim(), out actualPort);
                     }
                 }
 
