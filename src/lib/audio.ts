@@ -1,4 +1,3 @@
-
 import * as Tone from 'tone';
 import { EFFECTS, EffectName, getInstrumentById } from './effects';
 
@@ -20,10 +19,11 @@ class AudioEngine {
   private currentEffectId: EffectName = 'clean';
   private initialized = false;
   private initPromise: Promise<void> | null = null;
-  private mediaRecorder: MediaRecorder | null = null;
-  private mediaStreamDest: MediaStreamAudioDestinationNode | null = null;
-  private recordingChunks: Blob[] = [];
-  private isRecording = false;
+
+  private scriptNode: ScriptProcessorNode | null = null;
+  private captureContext: AudioContext | null = null;
+  private capturedBuffers: Float32Array[][] = [[], []];
+  private capturing = false;
 
   async init() {
     if (this.initialized) return;
@@ -37,7 +37,7 @@ class AudioEngine {
 
   private disposeNodes(nodes: Tone.ToneAudioNode[]) {
     for (let i = nodes.length - 1; i >= 0; i--) {
-      try { nodes[i].dispose(); } catch { /* already disposed */ }
+      try { nodes[i].dispose(); } catch { }
     }
   }
 
@@ -131,89 +131,104 @@ class AudioEngine {
   }
 
   async startRecording(): Promise<void> {
-    if (this.isRecording) return;
+    if (this.capturing) return;
     const ctx = Tone.getContext().rawContext as AudioContext;
-    this.mediaStreamDest = ctx.createMediaStreamDestination();
-    Tone.getDestination().connect(this.mediaStreamDest);
-    this.recordingChunks = [];
+    this.captureContext = ctx;
+    this.capturedBuffers = [[], []];
+    this.capturing = true;
 
-    const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-      ? 'audio/webm;codecs=opus'
-      : 'audio/webm';
+    Tone.getDestination().disconnect();
 
-    return new Promise<void>((resolve) => {
-      const recorder = new MediaRecorder(this.mediaStreamDest!.stream, { mimeType });
-      recorder.ondataavailable = (e: BlobEvent) => {
-        if (e.data.size > 0) this.recordingChunks.push(e.data);
-      };
-      recorder.onstart = () => {
-        this.isRecording = true;
-        resolve();
-      };
-      recorder.start();
-      this.mediaRecorder = recorder;
-    });
+    const bufferSize = 4096;
+    const node = ctx.createScriptProcessor(bufferSize, 2, 2);
+    node.onaudioprocess = (event) => {
+      if (!this.capturing) return;
+      for (let ch = 0; ch < event.inputBuffer.numberOfChannels && ch < 2; ch++) {
+        this.capturedBuffers[ch].push(new Float32Array(event.inputBuffer.getChannelData(ch)));
+      }
+      for (let ch = 0; ch < event.outputBuffer.numberOfChannels; ch++) {
+        event.outputBuffer.getChannelData(ch).set(event.inputBuffer.getChannelData(ch));
+      }
+    };
+
+    Tone.getDestination().connect(node);
+    node.connect(ctx.destination);
+    this.scriptNode = node;
   }
 
   async stopRecording(): Promise<Blob> {
-    if (!this.isRecording || !this.mediaRecorder) throw new Error('Not recording');
+    if (!this.capturing || !this.scriptNode || !this.captureContext) {
+      throw new Error('Not recording');
+    }
+
+    this.capturing = false;
 
     return new Promise<Blob>((resolve, reject) => {
-      this.mediaRecorder!.onstop = async () => {
-        const rawBlob = new Blob(this.recordingChunks, { type: this.mediaRecorder!.mimeType });
-        if (this.mediaStreamDest) {
-          Tone.getDestination().disconnect(this.mediaStreamDest);
-        }
-        this.mediaRecorder = null;
-        this.mediaStreamDest = null;
-        this.recordingChunks = [];
-        this.isRecording = false;
-
+      setTimeout(() => {
         try {
-          const wavBlob = await this.decodeToWav(rawBlob);
+          if (this.scriptNode) {
+            this.scriptNode.disconnect();
+            this.scriptNode.onaudioprocess = null;
+            this.scriptNode = null;
+          }
+
+          Tone.getDestination().connect(this.captureContext!.destination);
+
+          const sampleRate = this.captureContext!.sampleRate;
+          this.captureContext = null;
+
+          const wavBlob = this.capturedToWav(sampleRate);
+          this.capturedBuffers = [[], []];
           resolve(wavBlob);
         } catch (e) {
           reject(e);
         }
-      };
-      this.mediaRecorder!.stop();
+      }, 50);
     });
   }
 
-  private async decodeToWav(blob: Blob): Promise<Blob> {
-    const ctx = Tone.getContext().rawContext as AudioContext;
-    const arrayBuffer = await blob.arrayBuffer();
-    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
-    return this.audioBufferToWav(audioBuffer);
-  }
-
   cancelRecording() {
-    if (this.mediaRecorder && this.isRecording) {
-      this.mediaRecorder.ondataavailable = null;
-      this.mediaRecorder.onstop = null;
-      this.mediaRecorder.stop();
+    this.capturing = false;
+    if (this.scriptNode) {
+      this.scriptNode.disconnect();
+      this.scriptNode.onaudioprocess = null;
+      this.scriptNode = null;
     }
-    if (this.mediaStreamDest) {
-      Tone.getDestination().disconnect(this.mediaStreamDest);
+    if (this.captureContext) {
+      Tone.getDestination().connect(this.captureContext.destination);
+      this.captureContext = null;
     }
-    this.mediaRecorder = null;
-    this.mediaStreamDest = null;
-    this.recordingChunks = [];
-    this.isRecording = false;
+    this.capturedBuffers = [[], []];
   }
 
   get isCurrentlyRecording(): boolean {
-    return this.isRecording;
+    return this.capturing;
   }
 
-  audioBufferToWav(buffer: AudioBuffer): Blob {
-    const numChannels = buffer.numberOfChannels;
-    const sampleRate = buffer.sampleRate;
-    const format = 1;
-    const bitDepth = 16;
-    const bytesPerSample = bitDepth / 8;
+  private capturedToWav(sampleRate: number): Blob {
+    const numChannels = 2;
+
+    const channels: Float32Array[] = [];
+    let totalSamples = 0;
+    for (let ch = 0; ch < numChannels; ch++) {
+      const totalLen = this.capturedBuffers[ch].reduce((sum, buf) => sum + buf.length, 0);
+      const flat = new Float32Array(totalLen);
+      let offset = 0;
+      for (const buf of this.capturedBuffers[ch]) {
+        flat.set(buf, offset);
+        offset += buf.length;
+      }
+      channels.push(flat);
+      if (ch === 0) totalSamples = totalLen;
+    }
+
+    if (totalSamples === 0) {
+      return new Blob([], { type: 'audio/wav' });
+    }
+
+    const bytesPerSample = 2;
     const blockAlign = numChannels * bytesPerSample;
-    const dataLength = buffer.length * blockAlign;
+    const dataLength = totalSamples * blockAlign;
     const headerLength = 44;
     const totalLength = headerLength + dataLength;
 
@@ -225,21 +240,20 @@ class AudioEngine {
     writeString(view, 8, 'WAVE');
     writeString(view, 12, 'fmt ');
     view.setUint32(16, 16, true);
-    view.setUint16(20, format, true);
+    view.setUint16(20, 1, true);
     view.setUint16(22, numChannels, true);
     view.setUint32(24, sampleRate, true);
     view.setUint32(28, sampleRate * blockAlign, true);
     view.setUint16(32, blockAlign, true);
-    view.setUint16(34, bitDepth, true);
+    view.setUint16(34, 16, true);
     writeString(view, 36, 'data');
     view.setUint32(40, dataLength, true);
 
     let offset = 44;
-    for (let i = 0; i < buffer.length; i++) {
+    for (let i = 0; i < totalSamples; i++) {
       for (let ch = 0; ch < numChannels; ch++) {
-        const sample = buffer.getChannelData(ch)[i];
-        const clamped = Math.max(-1, Math.min(1, sample));
-        view.setInt16(offset, clamped < 0 ? clamped * 0x8000 : clamped * 0x7FFF, true);
+        const sample = Math.max(-1, Math.min(1, channels[ch][i]));
+        view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
         offset += 2;
       }
     }

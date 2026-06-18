@@ -1,87 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Download, Circle, Square, Loader2 } from 'lucide-react';
 import { audioEngine } from '../lib/audio';
 import { downloadBlob, formatDuration, humanFileSize } from '../lib/export';
 
-interface NoteData {
-  string: number;
-  fret: number;
-  fullNote: string;
-  noteName: string;
-}
-
-interface ExportPanelProps {
-  hasSequence: boolean;
-  bpm: number;
-  sequence: NoteData[][];
-}
-
-export const ExportPanel: React.FC<ExportPanelProps> = ({ hasSequence, bpm, sequence }) => {
-  const [format, setFormat] = useState<'wav' | 'mp3'>('wav');
-  const [isExporting, setIsExporting] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const [status, setStatus] = useState('');
-  const [result, setResult] = useState<{ size: string; duration: string } | null>(null);
+export const ExportPanel: React.FC = () => {
+  const [format, setFormat] = React.useState<'wav' | 'mp3'>('wav');
+  const [isRecording, setIsRecording] = React.useState(false);
+  const [isConverting, setIsConverting] = React.useState(false);
+  const [status, setStatus] = React.useState('');
+  const [result, setResult] = React.useState<{ size: string; duration: string } | null>(null);
   const recordingStartRef = useRef(0);
-
-  const handleExportSequence = async () => {
-    setIsExporting(true);
-    setStatus('Preparing export...');
-    setResult(null);
-
-    try {
-      await audioEngine.init();
-      await audioEngine.ensureInstrument(audioEngine.getCurrentInstrument());
-      await audioEngine.startRecording();
-
-      const msPerBeat = 60000 / bpm;
-      const validSteps = sequence.filter(step => step.length > 0);
-      if (validSteps.length === 0) throw new Error('Nothing to export');
-
-      setStatus(`Rendering ${validSteps.length} steps...`);
-      for (const step of validSteps) {
-        const chordNotes = step.map(n => n.fullNote);
-        if (chordNotes.length === 1) {
-          audioEngine.playNote(chordNotes[0]);
-        } else {
-          audioEngine.playChord(chordNotes);
-        }
-        await new Promise(resolve => setTimeout(resolve, msPerBeat));
-      }
-
-      // Let final notes ring out before stopping
-      await new Promise(resolve => setTimeout(resolve, msPerBeat));
-
-      const blob = await audioEngine.stopRecording();
-
-      let finalBlob = blob;
-      if (format === 'mp3') {
-        setStatus('Converting to MP3...');
-        finalBlob = await audioEngine.convertToMp3(blob);
-      }
-
-      const filename = `fretmaster-sequence-${Date.now()}.${format}`;
-      downloadBlob(finalBlob, filename);
-
-      const totalBeats = validSteps.length;
-      const totalSecs = (totalBeats * msPerBeat) / 1000;
-      setStatus('Downloaded!');
-      setResult({
-        size: humanFileSize(finalBlob.size),
-        duration: formatDuration(totalSecs),
-      });
-    } catch (e) {
-      setStatus('Export failed: ' + (e instanceof Error ? e.message : 'unknown error'));
-      try { await audioEngine.cancelRecording(); } catch { /* ignore */ }
-    } finally {
-      setIsExporting(false);
-    }
-  };
 
   const handleRecordLive = async () => {
     if (isRecording) {
+      setIsConverting(true);
       try {
+        setStatus('Processing recording...');
         const blob = await audioEngine.stopRecording();
 
         let finalBlob = blob;
@@ -95,14 +30,16 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ hasSequence, bpm, sequ
 
         setIsRecording(false);
         const elapsed = Math.floor((Date.now() - recordingStartRef.current) / 1000);
-        setStatus('Recording saved!');
+        setStatus('Saved!');
         setResult({
           size: humanFileSize(finalBlob.size),
           duration: formatDuration(elapsed),
         });
-      } catch {
-        setStatus('Recording failed');
+      } catch (e) {
+        setStatus('Recording failed: ' + (e instanceof Error ? e.message : 'unknown error'));
         setIsRecording(false);
+      } finally {
+        setIsConverting(false);
       }
     } else {
       recordingStartRef.current = Date.now();
@@ -112,9 +49,9 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ hasSequence, bpm, sequ
         await audioEngine.ensureInstrument(audioEngine.getCurrentInstrument());
         await audioEngine.startRecording();
         setIsRecording(true);
-        setStatus('Recording... (play or sing into your microphone)');
-      } catch {
-        setStatus('Failed to start recording');
+        setStatus('');
+      } catch (e) {
+        setStatus('Failed to start recording: ' + (e instanceof Error ? e.message : 'unknown error'));
       }
     }
   };
@@ -149,39 +86,31 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ hasSequence, bpm, sequ
         </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          variant="outline"
-          disabled={!hasSequence || isExporting || isRecording}
-          onClick={handleExportSequence}
-        >
-          {isExporting ? (
-            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-          ) : (
-            <Download className="h-4 w-4 mr-2" />
-          )}
-          Export Sequence
-        </Button>
-        <Button
-          variant={isRecording ? 'destructive' : 'outline'}
-          onClick={handleRecordLive}
-        >
-          {isRecording ? (
-            <>
-              <Square className="h-4 w-4 mr-2 fill-current" /> Stop Recording
-            </>
-          ) : (
-            <>
-              <Circle className="h-4 w-4 mr-2 text-red-500" /> Record Live
-            </>
-          )}
-        </Button>
-      </div>
+      <Button
+        variant={isRecording ? 'destructive' : 'outline'}
+        onClick={handleRecordLive}
+        disabled={isConverting}
+        className="w-full"
+      >
+        {isConverting ? (
+          <>
+            <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Converting...
+          </>
+        ) : isRecording ? (
+          <>
+            <Square className="h-4 w-4 mr-2 fill-current" /> Stop Recording
+          </>
+        ) : (
+          <>
+            <Circle className="h-4 w-4 mr-2 text-red-500" /> Record Live
+          </>
+        )}
+      </Button>
 
       {isRecording && (
         <div className="flex items-center gap-2 text-sm text-red-400">
           <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
-          Recording...
+          Recording... (play your guitar)
         </div>
       )}
 

@@ -537,7 +537,7 @@ export const VirtualGuitar: React.FC = () => {
 
       {/* Export Section */}
       <div className="mt-8 pt-8 border-t border-zinc-800/80">
-        <ExportPanel hasSequence={sequence.some(step => step.length > 0)} bpm={bpm} sequence={sequence} />
+        <ExportPanel />
       </div>
     </div>
   );
