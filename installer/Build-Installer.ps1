@@ -100,20 +100,6 @@ pause
     Write-Host "Created launcher: $launcherPath" -ForegroundColor Green
 }
 
-# Create Android build package - SKIPPED (Android support removed)
-# Write-Host ""
-# Write-Host "Creating Android build package..." -ForegroundColor Cyan
-# 
-# $androidDir = Join-Path $PSScriptRoot "..\android"
-# $androidZip = Join-Path $OutputDir "FretMaster-Android.zip"
-# 
-# if (Test-Path $androidDir) {
-#     Compress-Archive -Path "$androidDir\*" -DestinationPath $androidZip -Force
-#     Write-Host "Created Android package: $androidZip" -ForegroundColor Green
-# } else {
-#     Write-Host "Android directory not found" -ForegroundColor Yellow
-# }
-
 # Create Windows build package
 Write-Host ""
 Write-Host "Creating Windows build package..." -ForegroundColor Cyan
@@ -157,20 +143,6 @@ if (Test-Path $distDirResolved) {
     Write-Host "dist directory not found - web app not built?" -ForegroundColor Yellow
 }
 
-# Create website package
-Write-Host ""
-Write-Host "Creating website package..." -ForegroundColor Cyan
-
-$websiteDir = Join-Path $PSScriptRoot "..\website"
-$websiteZip = Join-Path $OutputDir "FretMaster-Website.zip"
-
-if (Test-Path $websiteDir) {
-    Compress-Archive -Path "$websiteDir\*" -DestinationPath $websiteZip -Force
-    Write-Host "Created website package: $websiteZip" -ForegroundColor Green
-} else {
-    Write-Host "Website directory not found" -ForegroundColor Yellow
-}
-
 # Summary
 Write-Host ""
 Write-Host "==================================================" -ForegroundColor Green
@@ -189,5 +161,5 @@ if (Test-Path $OutputDir) {
 Write-Host ""
 Write-Host "To install FretMaster:" -ForegroundColor Yellow
 Write-Host "  1. Run FretMaster-Setup.bat (Windows)" -ForegroundColor White
-Write-Host "  2. Visit the website (Web)" -ForegroundColor White
+Write-Host "  2. Or run FretMaster.exe directly (requires Node.js v24+)" -ForegroundColor White
 Write-Host ""

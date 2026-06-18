@@ -89,7 +89,7 @@ echo.
 echo  Output: FretMaster.exe
 echo.
 echo  To create installer:
-echo  1. Copy FretMaster.exe to the website folder
+echo  1. Copy FretMaster.exe to the output folder
 echo  2. Users can run it directly - no installation needed
 echo.
 pause

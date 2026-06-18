@@ -33,23 +33,14 @@ npx serve .
 
 Then open `http://localhost:3000` in your browser.
 
-## Building from Source
+### Build from Source
 
 ```bash
-# Install dependencies
 npm install
-
-# Start dev server
-npm run dev
-
-# Build for production
-npm run build
-
-# Package for Windows (EXE + web assets)
-npm run package:windows
+npm run dev      # development server on port 3000
+npm run build    # production build to dist/
+npm run package:windows  # build + package for distribution
 ```
-
-The built output goes to `installer/output/`.
 
 ## Tech Stack
 

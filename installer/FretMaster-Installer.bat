@@ -48,7 +48,6 @@ xcopy "%SOURCE_DIR%index.html" "%INSTALL_DIR%\" /Y >nul 2>nul
 xcopy "%SOURCE_DIR%styles.css" "%INSTALL_DIR%\" /Y >nul 2>nul
 xcopy "%SOURCE_DIR%server.js" "%INSTALL_DIR%\" /Y >nul 2>nul
 xcopy "%SOURCE_DIR%fretmaster-windows.zip" "%INSTALL_DIR%\" /Y >nul 2>nul
-xcopy "%SOURCE_DIR%fretmaster-android.zip" "%INSTALL_DIR%\" /Y >nul 2>nul
 echo [OK] Copied application files
 
 REM Create launcher batch file

@@ -37,7 +37,6 @@ const mimeTypes = {
     '.woff2': 'font/woff2',
     '.ttf': 'font/ttf',
     '.zip': 'application/zip',
-    '.apk': 'application/vnd.android.package-archive',
     '.exe': 'application/octet-stream',
     '.msi': 'application/octet-stream'
 };

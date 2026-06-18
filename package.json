@@ -10,13 +10,8 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "build:android": "bash build-android.sh",
     "build:windows": "powershell -ExecutionPolicy Bypass -File build-windows.ps1",
-    "build:pwa": "vite build && npm run generate-icons",
-    "generate-icons": "node scripts/generate-icons.cjs",
-    "package:android": "npm run build && bash build-android.sh",
-    "package:windows": "npm run build && powershell -ExecutionPolicy Bypass -File build-windows.ps1",
-    "store:validate": "node scripts/validate-store.cjs"
+    "package:windows": "npm run build && powershell -ExecutionPolicy Bypass -File build-windows.ps1"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
