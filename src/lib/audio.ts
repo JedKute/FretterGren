@@ -158,9 +158,9 @@ class AudioEngine {
   async stopRecording(): Promise<Blob> {
     if (!this.isRecording || !this.mediaRecorder) throw new Error('Not recording');
 
-    return new Promise<Blob>((resolve) => {
-      this.mediaRecorder!.onstop = () => {
-        const blob = new Blob(this.recordingChunks, { type: 'audio/wav' });
+    return new Promise<Blob>((resolve, reject) => {
+      this.mediaRecorder!.onstop = async () => {
+        const rawBlob = new Blob(this.recordingChunks, { type: this.mediaRecorder!.mimeType });
         if (this.mediaStreamDest) {
           Tone.getDestination().disconnect(this.mediaStreamDest);
         }
@@ -168,10 +168,23 @@ class AudioEngine {
         this.mediaStreamDest = null;
         this.recordingChunks = [];
         this.isRecording = false;
-        resolve(blob);
+
+        try {
+          const wavBlob = await this.decodeToWav(rawBlob);
+          resolve(wavBlob);
+        } catch (e) {
+          reject(e);
+        }
       };
       this.mediaRecorder!.stop();
     });
+  }
+
+  private async decodeToWav(blob: Blob): Promise<Blob> {
+    const ctx = Tone.getContext().rawContext as AudioContext;
+    const arrayBuffer = await blob.arrayBuffer();
+    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+    return this.audioBufferToWav(audioBuffer);
   }
 
   cancelRecording() {

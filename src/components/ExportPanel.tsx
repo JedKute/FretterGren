@@ -32,6 +32,7 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ hasSequence, bpm, sequ
 
     try {
       await audioEngine.init();
+      await audioEngine.ensureInstrument(audioEngine.getCurrentInstrument());
       await audioEngine.startRecording();
 
       const msPerBeat = 60000 / bpm;
@@ -108,6 +109,7 @@ export const ExportPanel: React.FC<ExportPanelProps> = ({ hasSequence, bpm, sequ
       setResult(null);
       try {
         await audioEngine.init();
+        await audioEngine.ensureInstrument(audioEngine.getCurrentInstrument());
         await audioEngine.startRecording();
         setIsRecording(true);
         setStatus('Recording... (play or sing into your microphone)');
