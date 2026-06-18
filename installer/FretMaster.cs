@@ -60,19 +60,30 @@ namespace FretMaster
                 };
 
                 Process serverProcess = Process.Start(startInfo);
+                int actualPort = 3000;
 
-                // Wait a moment for server to start
-                System.Threading.Thread.Sleep(2000);
+                // Read stdout line by line to find the actual port
+                DateTime portTimeout = DateTime.Now.AddSeconds(5);
+                while (!serverProcess.HasExited && DateTime.Now < portTimeout)
+                {
+                    string line = serverProcess.StandardOutput.ReadLine();
+                    if (line == null) break;
+                    if (line.StartsWith("FRETMASTER_PORT="))
+                    {
+                        int.TryParse(line.Substring("FRETMASTER_PORT=".Length).Trim(), out actualPort);
+                        break;
+                    }
+                }
 
                 // Open browser
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = "http://localhost:3000",
+                    FileName = "http://localhost:" + actualPort,
                     UseShellExecute = true
                 });
 
                 // Show tray icon
-                Application.Run(new FretMasterTrayIcon(serverProcess));
+                Application.Run(new FretMasterTrayIcon(serverProcess, actualPort));
             }
             catch (Exception ex)
             {
@@ -120,15 +131,17 @@ namespace FretMaster
     {
         private NotifyIcon trayIcon;
         private Process serverProcess;
+        private int port;
 
-        public FretMasterTrayIcon(Process process)
+        public FretMasterTrayIcon(Process process, int actualPort)
         {
             serverProcess = process;
+            port = actualPort;
 
             trayIcon = new NotifyIcon
             {
                 Icon = SystemIcons.Application,
-                Text = "FretMaster - Running on port 3000",
+                Text = "FretMaster - Running on port " + port,
                 Visible = true,
                 ContextMenuStrip = new ContextMenuStrip()
             };
@@ -139,14 +152,14 @@ namespace FretMaster
 
             trayIcon.DoubleClick += (s, e) => OpenBrowser();
 
-            trayIcon.ShowBalloonTip(3000, "FretMaster", "Server started at http://localhost:3000", ToolTipIcon.Info);
+            trayIcon.ShowBalloonTip(3000, "FretMaster", "Server started at http://localhost:" + port, ToolTipIcon.Info);
         }
 
         void OpenBrowser()
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "http://localhost:3000",
+                FileName = "http://localhost:" + port,
                 UseShellExecute = true
             });
         }

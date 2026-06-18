@@ -7,7 +7,8 @@ import { exec } from 'child_process';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = 3000;
+const PORT = parseInt(process.env.PORT, 10) || 3000;
+const MAX_PORT_ATTEMPTS = 100;
 const HOST = '0.0.0.0';
 
 const getAppDir = () => {
@@ -109,37 +110,46 @@ const server = http.createServer((req, res) => {
     });
 });
 
-server.listen(PORT, HOST, () => {
-    console.log('');
-    console.log(`${colors.orange}╔═══════════════════════════════════════════════════════════╗${colors.reset}`);
-    console.log(`${colors.orange}║                                                           ║${colors.reset}`);
-    console.log(`${colors.orange}║   🎸 FretMaster - Interactive Guitar Coach               ║${colors.reset}`);
-    console.log(`${colors.orange}║   Version 1.0.0                                          ║${colors.reset}`);
-    console.log(`${colors.orange}║                                                           ║${colors.reset}`);
-    console.log(`${colors.orange}╚═══════════════════════════════════════════════════════════╝${colors.reset}`);
-    console.log('');
-    console.log(`${colors.green}✓ Server running at:${colors.reset}`);
-    console.log(`  ${colors.white}Local:   http://localhost:${PORT}/${colors.reset}`);
-    console.log(`  ${colors.white}Network: http://127.0.0.1:${PORT}/${colors.reset}`);
-    console.log('');
-    console.log(`${colors.cyan}Downloads available:${colors.reset}`);
-    console.log(`  ${colors.yellow}Windows: http://localhost:${PORT}/fretmaster-windows.zip${colors.reset}`);
-    console.log('');
+function tryListen(port) {
+    server.listen(port, HOST, () => {
+        const actualPort = server.address().port;
+        console.log('');
+        console.log(`${colors.orange}╔═══════════════════════════════════════════════════════════╗${colors.reset}`);
+        console.log(`${colors.orange}║                                                           ║${colors.reset}`);
+        console.log(`${colors.orange}║   🎸 FretMaster - Interactive Guitar Coach               ║${colors.reset}`);
+        console.log(`${colors.orange}║   Version 1.0.0                                          ║${colors.reset}`);
+        console.log(`${colors.orange}║                                                           ║${colors.reset}`);
+        console.log(`${colors.orange}╚═══════════════════════════════════════════════════════════╝${colors.reset}`);
+        console.log('');
+        console.log(`${colors.green}✓ Server running at:${colors.reset}`);
+        console.log(`  ${colors.white}Local:   http://localhost:${actualPort}/${colors.reset}`);
+        console.log(`  ${colors.white}Network: http://127.0.0.1:${actualPort}/${colors.reset}`);
+        console.log('');
+        console.log(`FRETMASTER_PORT=${actualPort}`);
 
-    if (process.platform === 'win32') {
-        exec(`start http://localhost:${PORT}`);
-    }
-});
+        if (process.platform === 'win32') {
+            exec(`start http://localhost:${actualPort}`);
+        }
+    });
+}
 
 server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-        logError(`Port ${PORT} is already in use`);
-        process.exit(1);
+        const nextPort = PORT + 1;
+        if (nextPort - PORT < MAX_PORT_ATTEMPTS) {
+            logError(`Port ${PORT} is already in use, trying port ${nextPort}...`);
+            tryListen(nextPort);
+        } else {
+            logError(`Could not find an available port after ${MAX_PORT_ATTEMPTS} attempts`);
+            process.exit(1);
+        }
     } else {
         logError(`Server error: ${err.message}`);
         process.exit(1);
     }
 });
+
+tryListen(PORT);
 
 process.on('SIGINT', () => {
     log('Shutting down server...', colors.yellow);
