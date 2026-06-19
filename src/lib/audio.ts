@@ -259,7 +259,7 @@ class AudioEngine {
     }
 
     let encoder: any;
-    let mp3Data: Int32Array;
+    let mp3Data: Int8Array;
 
     if (numChannels === 1) {
       encoder = new lamejs.Mp3Encoder(1, sampleRate, 128);
@@ -275,10 +275,10 @@ class AudioEngine {
       mp3Data = encoder.encodeBuffer(left, right);
     }
 
-    const mp3End = encoder.flush();
+    const mp3End: Int8Array = encoder.flush();
 
     const totalLength = mp3Data.length + mp3End.length;
-    const combined = new Int32Array(totalLength);
+    const combined = new Uint8Array(totalLength);
     combined.set(mp3Data, 0);
     combined.set(mp3End, mp3Data.length);
 
