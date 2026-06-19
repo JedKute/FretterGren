@@ -116,10 +116,17 @@ export default function App() {
       <div className="fixed left-0 top-0 bottom-0 w-20 md:w-64 bg-zinc-900 border-r border-zinc-800 z-50 flex flex-col">
         <div className="p-6 mb-8">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.4)]">
-              <Music2 className="text-white h-6 w-6" />
+            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.4)] overflow-hidden">
+              <svg viewBox="0 0 100 100" className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M50 15 Q35 15 25 28 Q15 40 25 55 Q30 70 45 70 Q50 70 50 85 Q50 70 55 70 Q70 70 75 55 Q85 40 75 28 Q65 15 50 15" />
+                <ellipse cx="35" cy="38" rx="6" ry="8" />
+                <ellipse cx="65" cy="38" rx="6" ry="8" />
+                <path d="M35 58 Q50 63 65 58" />
+                <path d="M30 25 Q35 20 40 25" />
+                <path d="M60 25 Q70 20 70 25" />
+              </svg>
             </div>
-            <span className="text-xl font-black tracking-tighter hidden md:block">FRETMASTER</span>
+            <span className="text-xl font-black tracking-tighter hidden md:block">FRETTERGREN</span>
           </div>
         </div>
 
