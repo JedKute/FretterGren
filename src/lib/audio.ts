@@ -282,7 +282,7 @@ class AudioEngine {
     combined.set(mp3Data, 0);
     combined.set(mp3End, mp3Data.length);
 
-    return new Blob([combined], { type: 'audio/mp3' });
+    return new Blob([combined], { type: 'audio/mpeg' });
   }
 
   async getSupportedFormats(): Promise<{ wav: boolean; mp3: boolean }> {
