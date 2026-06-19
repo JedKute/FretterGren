@@ -1,5 +1,6 @@
 import * as Tone from 'tone';
 import { EFFECTS, EffectName, getInstrumentById } from './effects';
+import lamejs from 'lamejs';
 
 type SamplerEntry = {
   sampler: Tone.Sampler;
@@ -244,7 +245,6 @@ class AudioEngine {
   }
 
   async convertToMp3(wavBlob: Blob): Promise<Blob> {
-    const lamejs: any = await import('lamejs');
     const arrayBuffer = await wavBlob.arrayBuffer();
     const headerView = new DataView(arrayBuffer);
 
@@ -286,12 +286,7 @@ class AudioEngine {
   }
 
   async getSupportedFormats(): Promise<{ wav: boolean; mp3: boolean }> {
-    try {
-      await import('lamejs');
-      return { wav: true, mp3: true };
-    } catch {
-      return { wav: true, mp3: false };
-    }
+    return { wav: true, mp3: true };
   }
 }
 
