@@ -266,7 +266,7 @@ export default function App() {
                           transition={{ delay: 0.2 }}
                           className="text-4xl md:text-5xl font-black text-white mb-4"
                         >
-                          Hey there! I'm <span className="text-orange-500">Fretmaster</span>.
+                          Hey there! I'm <span className="text-orange-500">FretterGren</span>.
                         </motion.h2>
                         <motion.p 
                           initial={{ y: 20, opacity: 0 }}
