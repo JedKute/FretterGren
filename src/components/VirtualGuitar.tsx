@@ -16,7 +16,12 @@ type NoteData = {
   noteName: string;
 };
 
-export const VirtualGuitar: React.FC = () => {
+interface VirtualGuitarProps {
+  effect: EffectName;
+  onEffectChange: (effect: EffectName) => void;
+}
+
+export const VirtualGuitar: React.FC<VirtualGuitarProps> = ({ effect, onEffectChange }) => {
   const [activeNotes, setActiveNotes] = useState<{ string: number; fret: number; label?: string }[]>([]);
 
   // Sequencer state
@@ -28,7 +33,6 @@ export const VirtualGuitar: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<InstrumentCategory>('guitars');
   const [selectedInstrument, setSelectedInstrument] = useState<string>('acoustic');
-  const [selectedEffect, setSelectedEffect] = useState<EffectName>('clean');
 
   const currentIdxRef = useRef(0);
 
@@ -232,25 +236,6 @@ export const VirtualGuitar: React.FC = () => {
           ))}
         </div>
 
-        {/* Effect Selector */}
-        <div className="flex gap-2">
-          {(['clean', 'ambient', 'overdrive', 'heavy'] as EffectName[]).map(id => (
-            <button
-              key={id}
-              className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
-                selectedEffect === id
-                  ? 'bg-orange-500/10 border border-orange-500 text-orange-500'
-                  : 'bg-zinc-900/50 border border-zinc-800 text-zinc-500 hover:border-zinc-600'
-              }`}
-              onClick={() => {
-                setSelectedEffect(id);
-                audioEngine.setEffect(id);
-              }}
-            >
-              {EFFECTS[id].name}
-            </button>
-          ))}
-        </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">

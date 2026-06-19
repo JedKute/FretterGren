@@ -75,7 +75,7 @@ const PIANO_NOTES: NoteMap = {
   "A7": "A7.mp3", "C8": "C8.mp3",
 };
 
-const INSTRUMENTS: InstrumentProfile[] = [
+export const INSTRUMENTS: InstrumentProfile[] = [
   { id: 'acoustic', name: 'Acoustic Guitar', category: 'guitars', baseUrl: `${FLUID}acoustic_guitar_steel-mp3/`, notes: GUITAR_NOTES, release: 1 },
   { id: 'electric', name: 'Electric Guitar', category: 'guitars', baseUrl: `${FLUID}electric_guitar_clean-mp3/`, notes: GUITAR_NOTES, release: 1 },
   { id: 'nylon', name: 'Nylon Guitar', category: 'guitars', baseUrl: `${FLUID}acoustic_guitar_nylon-mp3/`, notes: GUITAR_NOTES, release: 1 },

@@ -37,6 +37,7 @@ import { InteractiveCircle } from './components/InteractiveCircle';
 
 import { VirtualGuitar } from './components/VirtualGuitar';
 import { CHORDS, SCALES, LESSONS, NOTES, ARPEGGIOS, STRINGS } from './constants/guitar';
+import { EFFECTS, EffectName, getInstrumentById, INSTRUMENTS } from './lib/effects';
 import { cn } from '@/lib/utils';
 import { audioEngine } from './lib/audio';
 
@@ -50,6 +51,7 @@ export default function App() {
   const [selectedArpeggioRoot, setSelectedArpeggioRoot] = useState<string>('C');
   const [toast, setToast] = useState<string | null>(null);
   const [instrument, setInstrument] = useState<string>('acoustic');
+  const [effect, setEffect] = useState<EffectName>('clean');
   const [metronomeSound, setMetronomeSound] = useState<'Woodblock' | 'Digital Beep' | 'Drum Stick'>('Woodblock');
   const [masterVolume, setMasterVolume] = useState<number>(80);
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -197,22 +199,34 @@ export default function App() {
       <main className="pl-20 md:pl-64 min-h-screen">
         <header className="h-20 border-b border-zinc-800 flex items-center justify-between px-8 sticky top-0 bg-[#0a0a0a]/80 backdrop-blur-xl z-40">
           <h1 className="text-xl font-bold capitalize">{activeTab}</h1>
-          <div className="flex items-center gap-4">
-            <select 
-              value={instrument} 
-              onChange={(e) => {
-                const val = e.target.value as string;
-                setInstrument(val);
-                audioEngine.setInstrument(val);
-              }}
-              className="bg-zinc-800 text-white px-4 py-2 rounded-lg border border-zinc-700 outline-none focus:border-orange-500 transition-colors font-bold cursor-pointer hidden md:block"
-            >
-              <option value="acoustic">Acoustic Guitar</option>
-              <option value="electric">Electric Guitar</option>
-              <option value="violin">Violin</option>
-              <option value="piano">Grand Piano</option>
-            </select>
-          </div>
+            <div className="flex items-center gap-4">
+              <select 
+                value={instrument} 
+                onChange={(e) => {
+                  const val = e.target.value as string;
+                  setInstrument(val);
+                  audioEngine.setInstrument(val);
+                }}
+                className="bg-zinc-800 text-white px-4 py-2 rounded-lg border border-zinc-700 outline-none focus:border-orange-500 transition-colors font-bold cursor-pointer hidden md:block min-w-[200px]"
+              >
+                {INSTRUMENTS.map(inst => (
+                  <option key={inst.id} value={inst.id}>{inst.name}</option>
+                ))}
+              </select>
+              <select 
+                value={effect} 
+                onChange={(e) => {
+                  const val = e.target.value as EffectName;
+                  setEffect(val);
+                  audioEngine.setEffect(val);
+                }}
+                className="bg-zinc-800 text-white px-4 py-2 rounded-lg border border-zinc-700 outline-none focus:border-orange-500 transition-colors font-bold cursor-pointer hidden md:block min-w-[160px]"
+              >
+                {Object.values(EFFECTS).map(eff => (
+                  <option key={eff.id} value={eff.id}>{eff.name}</option>
+                ))}
+              </select>
+            </div>
         </header>
 
         <div className="p-8 max-w-6xl mx-auto">
@@ -1152,7 +1166,7 @@ export default function App() {
                   
                   <div className="space-y-4">
                     <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest">Virtual Guitar</h3>
-                    <VirtualGuitar />
+                    <VirtualGuitar effect={effect} onEffectChange={setEffect} />
                   </div>
                 </div>
               )}
