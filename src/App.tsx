@@ -871,7 +871,7 @@ export default function App() {
                                   Higher notes on the staff sound higher in pitch, while lower notes sound lower. If a note goes higher or lower than the 5 lines, we use short extra lines called "ledger lines".
                                 </p>
                               </div>
-                              <img src="/src/assets/images/staff_lines_illustration_1781220938959.jpg" alt="Musical Staff Lines" className="rounded-xl border border-zinc-700 w-full object-cover" />
+                              <img src="/staff_lines_illustration_1781220938959.jpg" alt="Musical Staff Lines" className="rounded-xl border border-zinc-700 w-full object-cover" />
                             </div>
                           </div>
 
@@ -887,7 +887,7 @@ export default function App() {
                                   <li>Lines (bottom to top): E, G, B, D, F (Every Good Boy Deserves Fudge)</li>
                                   <li>Spaces (bottom to top): F, A, C, E (Spells "FACE")</li>
                                 </ul>
-                                <img src="/src/assets/images/treble_clef_illustration_1781220952050.jpg" alt="Treble Clef" className="rounded-xl border border-zinc-700 w-full object-cover aspect-video mt-4" />
+                                <img src="/treble_clef_illustration_1781220952050.jpg" alt="Treble Clef" className="rounded-xl border border-zinc-700 w-full object-cover aspect-video mt-4" />
                               </div>
                               <div className="space-y-4">
                                 <h4 className="text-blue-400 font-bold">Bass Clef (F-Clef)</h4>
@@ -898,7 +898,7 @@ export default function App() {
                                   <li>Lines (bottom to top): G, B, D, F, A (Good Boys Do Fine Always)</li>
                                   <li>Spaces (bottom to top): A, C, E, G (All Cows Eat Grass)</li>
                                 </ul>
-                                <img src="/src/assets/images/bass_clef_illustration_1781220965677.jpg" alt="Bass Clef" className="rounded-xl border border-zinc-700 w-full object-cover aspect-video mt-4" />
+                                <img src="/bass_clef_illustration_1781220965677.jpg" alt="Bass Clef" className="rounded-xl border border-zinc-700 w-full object-cover aspect-video mt-4" />
                               </div>
                             </div>
                           </div>
@@ -917,7 +917,7 @@ export default function App() {
                                   <li><strong className="text-white">Eighth Note:</strong> A filled circle with a stem and one flag. Lasts for 1/2 of a beat.</li>
                                 </ul>
                               </div>
-                              <img src="/src/assets/images/note_durations_illustration_1781220976441.jpg" alt="Note Durations" className="rounded-xl border border-zinc-700 w-full object-cover" />
+                              <img src="/note_durations_illustration_1781220976441.jpg" alt="Note Durations" className="rounded-xl border border-zinc-700 w-full object-cover" />
                             </div>
                           </div>
 
@@ -936,7 +936,7 @@ export default function App() {
                                   **4/4 Time (Common Time)** is the most frequent: 4 beats per measure, quarter note gets the beat. **3/4 Time (Waltz)** has 3 beats per measure.
                                 </p>
                               </div>
-                              <img src="/src/assets/images/time_signatures_1781222891260.jpg" alt="Time Signatures" className="rounded-xl border border-zinc-700 w-full object-cover" />
+                              <img src="/time_signatures_1781222891260.jpg" alt="Time Signatures" className="rounded-xl border border-zinc-700 w-full object-cover" />
                             </div>
                           </div>
 
