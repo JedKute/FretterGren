@@ -188,10 +188,10 @@ export default function App() {
       </div>
 
       {/* Main Content Area */}
-      <main className="pl-20 md:pl-64 min-h-screen">
+      <main className="pl-20 md:pl-64 min-h-screen pb-8 md:pb-0">
         <header className="h-20 border-b border-zinc-800 flex items-center justify-between px-8 sticky top-0 bg-[#0a0a0a]/80 backdrop-blur-xl z-40">
           <h1 className="text-xl font-bold capitalize">{activeTab}</h1>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
               <select 
                 value={instrument} 
                 onChange={(e) => {
@@ -199,7 +199,7 @@ export default function App() {
                   setInstrument(val);
                   audioEngine.setInstrument(val);
                 }}
-                className="bg-zinc-800 text-white px-4 py-2 rounded-lg border border-zinc-700 outline-none focus:border-orange-500 transition-colors font-bold cursor-pointer hidden md:block min-w-[200px]"
+                className="bg-zinc-800 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg border border-zinc-700 outline-none focus:border-orange-500 transition-colors font-bold cursor-pointer min-w-[140px] sm:min-w-[200px] text-sm sm:text-base"
               >
                 {INSTRUMENTS.map(inst => (
                   <option key={inst.id} value={inst.id}>{inst.name}</option>
@@ -212,7 +212,7 @@ export default function App() {
                   setEffect(val);
                   audioEngine.setEffect(val);
                 }}
-                className="bg-zinc-800 text-white px-4 py-2 rounded-lg border border-zinc-700 outline-none focus:border-orange-500 transition-colors font-bold cursor-pointer hidden md:block min-w-[160px]"
+                className="bg-zinc-800 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg border border-zinc-700 outline-none focus:border-orange-500 transition-colors font-bold cursor-pointer min-w-[120px] sm:min-w-[160px] text-sm sm:text-base"
               >
                 {Object.values(EFFECTS).map(eff => (
                   <option key={eff.id} value={eff.id}>{eff.name}</option>
@@ -221,7 +221,7 @@ export default function App() {
             </div>
         </header>
 
-        <div className="p-8 max-w-6xl mx-auto">
+        <div className="p-4 md:p-8 max-w-6xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -297,36 +297,36 @@ export default function App() {
                       <Flame className="text-orange-500 w-8 h-8" />
                       Words from the Pioneers
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-                          <Music2 className="w-24 h-24" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                      <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 md:p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                          <Music2 className="w-20 h-20 md:w-24 md:h-24" />
                         </div>
-                        <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"Sometimes you want to give up with the guitar, you'll hate the guitar. But if you stick with it, you're gonna be rewarded."</p>
+                        <p className="text-lg md:text-xl text-zinc-300 italic mb-4 md:mb-6 relative z-10">"Sometimes you want to give up with the guitar, you'll hate the guitar. But if you stick with it, you're gonna be rewarded."</p>
                         <p className="font-bold text-orange-500 relative z-10">— Jimi Hendrix</p>
                       </motion.div>
                       
-                      <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-                          <Music2 className="w-24 h-24" />
+                      <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 md:p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                          <Music2 className="w-20 h-20 md:w-24 md:h-24" />
                         </div>
-                        <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"The beautiful thing about learning is nobody can take it away from you."</p>
+                        <p className="text-lg md:text-xl text-zinc-300 italic mb-4 md:mb-6 relative z-10">"The beautiful thing about learning is nobody can take it away from you."</p>
                         <p className="font-bold text-orange-500 relative z-10">— B.B. King</p>
                       </motion.div>
                       
-                      <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-                          <Music2 className="w-24 h-24" />
+                      <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 md:p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                          <Music2 className="w-20 h-20 md:w-24 md:h-24" />
                         </div>
-                        <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"I play the guitar because it lets me speak the things I can't say in words."</p>
+                        <p className="text-lg md:text-xl text-zinc-300 italic mb-4 md:mb-6 relative z-10">"I play the guitar because it lets me speak the things I can't say in words."</p>
                         <p className="font-bold text-orange-500 relative z-10">— Stevie Ray Vaughan</p>
                       </motion.div>
                       
-                      <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-8 rounded-3xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-                          <Music2 className="w-24 h-24" />
+                      <motion.div whileHover={{ scale: 1.02 }} className="bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-2xl md:rounded-3xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-4 md:p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                          <Music2 className="w-20 h-20 md:w-24 md:h-24" />
                         </div>
-                        <p className="text-xl text-zinc-300 italic mb-6 relative z-10">"If you want to play the guitar, play it. Don't let anyone tell you you can't do it."</p>
+                        <p className="text-lg md:text-xl text-zinc-300 italic mb-4 md:mb-6 relative z-10">"If you want to play the guitar, play it. Don't let anyone tell you you can't do it."</p>
                         <p className="font-bold text-orange-500 relative z-10">— Eddie Van Halen</p>
                       </motion.div>
                     </div>

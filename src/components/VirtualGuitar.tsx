@@ -213,7 +213,7 @@ export const VirtualGuitar: React.FC<VirtualGuitarProps> = ({ effect, onEffectCh
         </div>
 
         {/* Instrument Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
           {getInstrumentsByCategory(selectedCategory).map(inst => (
             <button
               key={inst.id}
@@ -238,22 +238,22 @@ export const VirtualGuitar: React.FC<VirtualGuitarProps> = ({ effect, onEffectCh
 
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-        <div className="p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
-          <span className="text-[10px] font-bold text-zinc-500 uppercase block mb-1">Current Note</span>
-          <span className="text-2xl font-black text-white">{activeNotes.length > 0 ? NOTES[(NOTES.indexOf(STRINGS[activeNotes[0].string].note) + activeNotes[0].fret) % 12] : '--'}</span>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+        <div className="p-3 md:p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
+          <span className="text-[9px] md:text-[10px] font-bold text-zinc-500 uppercase block mb-1">Current Note</span>
+          <span className="text-xl md:text-2xl font-black text-white">{activeNotes.length > 0 ? NOTES[(NOTES.indexOf(STRINGS[activeNotes[0].string].note) + activeNotes[0].fret) % 12] : '--'}</span>
         </div>
-        <div className="p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
-          <span className="text-[10px] font-bold text-zinc-500 uppercase block mb-1">String</span>
-          <span className="text-2xl font-black text-white">{activeNotes.length > 0 ? STRINGS[activeNotes[0].string].note : '--'}</span>
+        <div className="p-3 md:p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
+          <span className="text-[9px] md:text-[10px] font-bold text-zinc-500 uppercase block mb-1">String</span>
+          <span className="text-xl md:text-2xl font-black text-white">{activeNotes.length > 0 ? STRINGS[activeNotes[0].string].note : '--'}</span>
         </div>
-        <div className="p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
-          <span className="text-[10px] font-bold text-zinc-500 uppercase block mb-1">Fret</span>
-          <span className="text-2xl font-black text-white">{activeNotes.length > 0 ? activeNotes[0].fret : '--'}</span>
+        <div className="p-3 md:p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
+          <span className="text-[9px] md:text-[10px] font-bold text-zinc-500 uppercase block mb-1">Fret</span>
+          <span className="text-xl md:text-2xl font-black text-white">{activeNotes.length > 0 ? activeNotes[0].fret : '--'}</span>
         </div>
-        <div className="p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
-          <span className="text-[10px] font-bold text-zinc-500 uppercase block mb-1">Octave</span>
-          <span className="text-2xl font-black text-white">{activeNotes.length > 0 ? STRINGS[activeNotes[0].string].octave + Math.floor((NOTES.indexOf(STRINGS[activeNotes[0].string].note) + activeNotes[0].fret) / 12) : '--'}</span>
+        <div className="p-3 md:p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-center">
+          <span className="text-[9px] md:text-[10px] font-bold text-zinc-500 uppercase block mb-1">Octave</span>
+          <span className="text-xl md:text-2xl font-black text-white">{activeNotes.length > 0 ? STRINGS[activeNotes[0].string].octave + Math.floor((NOTES.indexOf(STRINGS[activeNotes[0].string].note) + activeNotes[0].fret) / 12) : '--'}</span>
         </div>
       </div>
 

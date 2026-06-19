@@ -22,7 +22,7 @@ export const Fretboard: React.FC<FretboardProps> = ({
 
   return (
     <div className={cn("relative overflow-x-auto pb-4", className)}>
-      <div className="min-w-[800px] h-64 bg-[#2a1b0a] rounded-lg border-4 border-[#3d2b1f] relative shadow-2xl">
+      <div className="min-w-[800px] h-64 md:h-72 lg:h-80 bg-[#2a1b0a] rounded-lg border-4 border-[#3d2b1f] relative shadow-2xl">
         {/* Strings */}
         <div className="absolute inset-0 flex flex-col justify-between py-4 px-0">
           {STRINGS.map((_, i) => (
@@ -46,12 +46,12 @@ export const Fretboard: React.FC<FretboardProps> = ({
               {[3, 5, 7, 9, 12, 15, 17, 19, 21].includes(fret) && (
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                    {fret === 12 ? (
-                     <div className="flex flex-col gap-8">
-                       <div className="w-3 h-3 bg-white/20 rounded-full" />
-                       <div className="w-3 h-3 bg-white/20 rounded-full" />
+                     <div className="flex flex-col gap-8 md:gap-10">
+                       <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-white/20 rounded-full" />
+                       <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-white/20 rounded-full" />
                      </div>
                    ) : (
-                     <div className="w-3 h-3 bg-white/20 rounded-full" />
+                     <div className="w-2.5 h-2.5 md:w-3 md:h-3 bg-white/20 rounded-full" />
                    )}
                 </div>
               )}
@@ -96,7 +96,7 @@ export const Fretboard: React.FC<FretboardProps> = ({
         {frets.map((fret) => (
           <div
             key={fret}
-            className="text-xs text-gray-500 text-center"
+            className="text-[10px] md:text-xs text-gray-500 text-center"
             style={{ flex: `1 1 0%`, flexGrow: Math.pow(0.94, fret) }}
           >
             {fret}
