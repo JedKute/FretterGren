@@ -124,33 +124,23 @@ class AudioEngine {
     return this.currentEffectId;
   }
 
-  async startRecording(): Promise<void> {
+  startRecording(): void {
     if (this.capturing) return;
     const ctx = Tone.getContext().rawContext as AudioContext;
     this.recordingChunks = [];
     this.streamDest = ctx.createMediaStreamDestination();
-    Tone.getDestination().connect(this.streamDest);
+    (Tone.getDestination() as any).output.connect(this.streamDest);
 
     const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
       ? 'audio/webm;codecs=opus'
       : 'audio/webm';
 
-    const recorder = new MediaRecorder(this.streamDest.stream, { mimeType });
-    recorder.ondataavailable = (e: BlobEvent) => {
+    this.mediaRecorder = new MediaRecorder(this.streamDest.stream, { mimeType });
+    this.mediaRecorder.ondataavailable = (e: BlobEvent) => {
       if (e.data.size > 0) this.recordingChunks.push(e.data);
     };
-
-    return new Promise<void>((resolve, reject) => {
-      recorder.onstart = () => {
-        this.capturing = true;
-        this.mediaRecorder = recorder;
-        resolve();
-      };
-      recorder.onerror = () => {
-        reject(new Error('MediaRecorder error'));
-      };
-      recorder.start();
-    });
+    this.mediaRecorder.start();
+    this.capturing = true;
   }
 
   async stopRecording(): Promise<Blob> {

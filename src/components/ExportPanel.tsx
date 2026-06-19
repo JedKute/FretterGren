@@ -46,7 +46,7 @@ export const ExportPanel: React.FC = () => {
       setResult(null);
       try {
         await audioEngine.init();
-        await audioEngine.startRecording();
+        audioEngine.startRecording();
         setIsRecording(true);
         setStatus('');
       } catch (e) {
