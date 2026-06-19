@@ -1251,12 +1251,6 @@ export default function App() {
                         </div>
                         <Badge variant="outline" className="border-green-500 text-green-400">Active</Badge>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-bold">Local Storage</p>
-                          <p className="text-sm text-zinc-500">Your preferences and practice history are saved securely on this device only.</p>
-                        </div>
-                      </div>
                     </CardContent>
                   </Card>
                 </div>
