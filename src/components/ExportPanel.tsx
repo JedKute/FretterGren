@@ -25,7 +25,7 @@ export const ExportPanel: React.FC = () => {
           finalBlob = await audioEngine.convertToMp3(blob);
         }
 
-        const filename = `fretmaster-recording-${Date.now()}.${format}`;
+        const filename = `frettergren-recording-${Date.now()}.${format}`;
         downloadBlob(finalBlob, filename);
 
         setIsRecording(false);

@@ -1184,7 +1184,7 @@ export default function App() {
                   <Card className="bg-zinc-900 border-zinc-800 text-white">
                     <CardHeader>
                       <CardTitle>Audio Preferences</CardTitle>
-                      <CardDescription className="text-zinc-400">Customize how FretMaster sounds.</CardDescription>
+                      <CardDescription className="text-zinc-400">Customize how FretterGren sounds.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="flex flex-col gap-3">
@@ -1242,7 +1242,7 @@ export default function App() {
                   <Card className="bg-zinc-900 border-zinc-800 text-white">
                     <CardHeader>
                       <CardTitle>Privacy & Offline Mode</CardTitle>
-                      <CardDescription className="text-zinc-400">FretMaster runs safely and completely on your device.</CardDescription>
+                      <CardDescription className="text-zinc-400">FretterGren runs safely and completely on your device.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="flex items-center justify-between">

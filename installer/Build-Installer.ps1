@@ -1,4 +1,4 @@
-# FretMaster Installer Builder
+# FretterGren Installer Builder
 # This script compiles the installer to an EXE file
 
 param(
@@ -9,7 +9,7 @@ $ErrorActionPreference = "Stop"
 
 Write-Host ""
 Write-Host "==================================================" -ForegroundColor Yellow
-Write-Host "  FretMaster Installer Builder" -ForegroundColor Yellow
+Write-Host "  FretterGren Installer Builder" -ForegroundColor Yellow
 Write-Host "==================================================" -ForegroundColor Yellow
 Write-Host ""
 
@@ -35,10 +35,10 @@ if ($ps2exeAvailable) {
     Write-Host "Compiling PowerShell installer to EXE..." -ForegroundColor Cyan
     
     $ps1Path = Join-Path $PSScriptRoot "Install.ps1"
-    $exePath = Join-Path $OutputDir "FretMaster-Setup.exe"
+    $exePath = Join-Path $OutputDir "FretterGren-Setup.exe"
     
     if (Test-Path $ps1Path) {
-        ps2exe -InputFile $ps1Path -OutputFile $exePath -NoConsole -Title "FretMaster Installer" -Description "Interactive Guitar Coach Installer" -Version "1.0.0" -Copyright "Copyright (C) 2026 FretMaster"
+        ps2exe -InputFile $ps1Path -OutputFile $exePath -NoConsole -Title "FretterGren Installer" -Description "Interactive Guitar Coach Installer" -Version "1.0.0" -Copyright "Copyright (C) 2026 FretterGren"
         Write-Host "Created EXE installer: $exePath" -ForegroundColor Green
     } else {
         Write-Host "Install.ps1 not found" -ForegroundColor Red
@@ -51,51 +51,51 @@ if ($ps2exeAvailable) {
     # Create the launcher batch file
     $launcherContent = @"
 @echo off
-title FretMaster Installer
+title FretterGren Installer
 color 0A
 
 echo ==================================================
-echo   FretMaster - Interactive Guitar Coach
+echo   FretterGren - Interactive Guitar Coach
 echo   Installer v1.0.0
 echo ==================================================
 echo.
 
 REM Extract files
 echo Extracting files...
-powershell -Command "& {$zip = '%~dp0FretMaster.zip'; $dest = '%LOCALAPPDATA%\FretMaster'; if (Test-Path $dest) { Remove-Item -Path $dest -Recurse -Force }; Expand-Archive -Path $zip -DestinationPath $dest -Force; if (Test-Path \"$dest\app\") { Move-Item -Path \"$dest\app\*\" -Destination $dest -Force; Remove-Item -Path \"$dest\app\" -Recurse -Force }; Write-Host 'Files extracted successfully.'}"
+powershell -Command "& {$zip = '%~dp0FretterGren.zip'; $dest = '%LOCALAPPDATA%\FretterGren'; if (Test-Path $dest) { Remove-Item -Path $dest -Recurse -Force }; Expand-Archive -Path $zip -DestinationPath $dest -Force; if (Test-Path \"$dest\app\") { Move-Item -Path \"$dest\app\*\" -Destination $dest -Force; Remove-Item -Path \"$dest\app\" -Recurse -Force }; Write-Host 'Files extracted successfully.'}"
 
 REM Create shortcuts
 echo Creating shortcuts...
-powershell -Command "& {$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%APPDATA%\Microsoft\Windows\Start Menu\Programs\FretMaster\FretMaster.lnk'); $s.TargetPath = '%LOCALAPPDATA%\FretMaster\FretMaster.bat'; $s.WorkingDirectory = '%LOCALAPPDATA%\FretMaster'; $s.Save(); $s = $ws.CreateShortcut('%USERPROFILE%\Desktop\FretMaster.lnk'); $s.TargetPath = '%LOCALAPPDATA%\FretMaster\FretMaster.bat'; $s.WorkingDirectory = '%LOCALAPPDATA%\FretMaster'; $s.Save()}"
+powershell -Command "& {$ws = New-Object -ComObject WScript.Shell; $s = $ws.CreateShortcut('%APPDATA%\Microsoft\Windows\Start Menu\Programs\FretterGren\FretterGren.lnk'); $s.TargetPath = '%LOCALAPPDATA%\FretterGren\FretterGren.bat'; $s.WorkingDirectory = '%LOCALAPPDATA%\FretterGren'; $s.Save(); $s = $ws.CreateShortcut('%USERPROFILE%\Desktop\FretterGren.lnk'); $s.TargetPath = '%LOCALAPPDATA%\FretterGren\FretterGren.bat'; $s.WorkingDirectory = '%LOCALAPPDATA%\FretterGren'; $s.Save()}"
 
 REM Create uninstaller
 echo Creating uninstaller...
 (
 echo @echo off
-echo echo Uninstalling FretMaster...
-echo rmdir /S /Q "%LOCALAPPDATA%\FretMaster"
-echo rmdir /S /Q "%APPDATA%\Microsoft\Windows\Start Menu\Programs\FretMaster"
-echo del "%USERPROFILE%\Desktop\FretMaster.lnk"
-echo echo FretMaster has been uninstalled.
+echo echo Uninstalling FretterGren...
+echo rmdir /S /Q "%LOCALAPPDATA%\FretterGren"
+echo rmdir /S /Q "%APPDATA%\Microsoft\Windows\Start Menu\Programs\FretterGren"
+echo del "%USERPROFILE%\Desktop\FretterGren.lnk"
+echo echo FretterGren has been uninstalled.
 echo pause
-) > "%LOCALAPPDATA%\FretMaster\Uninstall.bat"
+) > "%LOCALAPPDATA%\FretterGren\Uninstall.bat"
 
 echo.
 echo ==================================================
 echo   Installation Complete!
 echo ==================================================
 echo.
-echo FretMaster has been installed to:
-echo   %LOCALAPPDATA%\FretMaster
+echo FretterGren has been installed to:
+echo   %LOCALAPPDATA%\FretterGren
 echo.
 echo You can now launch the app from:
 echo   - Desktop shortcut
-echo   - Start Menu ^> FretMaster
+echo   - Start Menu ^> FretterGren
 echo.
 pause
 "@
     
-    $launcherPath = Join-Path $OutputDir "FretMaster-Setup.bat"
+    $launcherPath = Join-Path $OutputDir "FretterGren-Setup.bat"
     $launcherContent | Out-File -FilePath $launcherPath -Encoding ASCII
     Write-Host "Created launcher: $launcherPath" -ForegroundColor Green
 }
@@ -105,7 +105,7 @@ Write-Host ""
 Write-Host "Creating Windows build package..." -ForegroundColor Cyan
 
 $windowsDir = Join-Path $PSScriptRoot "..\windows"
-$windowsZip = Join-Path $OutputDir "FretMaster-Windows.zip"
+$windowsZip = Join-Path $OutputDir "FretterGren-Windows.zip"
 
 if (Test-Path $windowsDir) {
     Compress-Archive -Path "$windowsDir\*" -DestinationPath $windowsZip -Force
@@ -175,7 +175,7 @@ if (Test-Path $OutputDir) {
 }
 
 Write-Host ""
-Write-Host "To install FretMaster:" -ForegroundColor Yellow
-Write-Host "  1. Run FretMaster-Setup.bat (Windows)" -ForegroundColor White
+Write-Host "To install FretterGren:" -ForegroundColor Yellow
+Write-Host "  1. Run FretterGren-Setup.bat (Windows)" -ForegroundColor White
 Write-Host "  2. Or run FretMaster.exe directly (requires Node.js v24+)" -ForegroundColor White
 Write-Host ""

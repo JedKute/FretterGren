@@ -1,5 +1,5 @@
 {
-  "name": "fretmaster-guitar-coach",
+  "name": "frettergren-guitar-coach",
   "version": "1.0.0",
   "description": "Interactive guitar coach with AI-powered feedback and real-time audio analysis",
   "private": true,
@@ -45,7 +45,7 @@
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   },
-  "author": "FretMaster",
+  "author": "FretterGren",
   "license": "MIT",
   "keywords": [
     "guitar",
@@ -59,10 +59,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/fretmaster/guitar-coach"
+    "url": "https://github.com/JedKute/FretterGren"
   },
   "bugs": {
-    "url": "https://github.com/fretmaster/guitar-coach/issues"
+    "url": "https://github.com/JedKute/FretterGren/issues"
   },
-  "homepage": "https://fretmaster.app"
+  "homepage": "https://github.com/JedKute/FretterGren"
 }
