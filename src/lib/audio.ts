@@ -1,6 +1,6 @@
 import * as Tone from 'tone';
 import { EFFECTS, EffectName, getInstrumentById } from './effects';
-import lamejs from 'lamejs';
+const lamejs = (window as any).lamejs;
 
 type SamplerEntry = {
   sampler: Tone.Sampler;
