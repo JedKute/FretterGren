@@ -1,4 +1,4 @@
-# FretMaster — Interactive Guitar Coach
+# FretterGren — Interactive Guitar Coach
 
 A fully offline, browser-based guitar coach with 18 instrument profiles, 4 audio effects, a virtual fretboard, sequence recorder, and audio export (WAV/MP3).
 
@@ -9,38 +9,26 @@ A fully offline, browser-based guitar coach with 18 instrument profiles, 4 audio
 - **4 Effects** — Clean, Ambient, Overdrive, Heavy — applied in real time
 - **Music Maker** — Build note sequences by tapping the fretboard, arrange into groups, and play back as chords or arpeggios
 - **Audio Export** — Record your sequence or live play and download as WAV or MP3
-- **Fully Offline** — All 120 audio samples bundled locally, no internet required after download
+- **Fully Offline** — All 120+ audio samples bundled locally, no internet required after download
 - **Metronome, Chord Diagrams, Circle of Fifths, Tuner** — Built-in practice tools
 
 ## Download
 
-### Windows (EXE Launcher)
+Download the latest `FretterGren-App.zip` from the [Releases page](https://github.com/JedKute/FretterGren/releases). Extract and run `FretMaster.exe`.
 
-Download [FretMaster-App.zip](./FretMaster-App.zip), extract, and run `FretMaster-Setup.bat` or launch `FretMaster.exe` directly.
+**Requirements:** Node.js v24+
 
-Requirements:
-- **Node.js v24+** installed on your system
-
-The EXE launches a local Node.js server on port 3000 and opens the app in your default browser.
-
-### Anyone (No install)
-
-The app is a static web app. You can serve it with any HTTP server:
-
-```bash
-npx serve .
-```
-
-Then open `http://localhost:3000` in your browser.
+The EXE launches a local Node.js server and opens the app in your default browser.
 
 ### Build from Source
 
 ```bash
 npm install
-npm run dev      # development server on port 3000
+npm run dev      # development server
 npm run build    # production build to dist/
-npm run package:windows  # build + package for distribution
 ```
+
+See `installer/Build-Installer.ps1` for packaging the production build with the .NET EXE launcher.
 
 ## Tech Stack
 
