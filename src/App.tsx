@@ -177,21 +177,6 @@ export default function App() {
 
         <div className="p-4 mt-auto border-t border-zinc-800 space-y-2">
           <NavButton icon={<Settings />} label="Settings" active={activeTab === 'settings'} onClick={() => setActiveTab('settings')} />
-          <div 
-            className={cn(
-              "flex items-center gap-3 p-3 rounded-xl hover:bg-zinc-800 transition-colors cursor-pointer group",
-              activeTab === 'profile' && "bg-zinc-800"
-            )}
-            onClick={() => setActiveTab('profile')}
-          >
-            <div className="w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center overflow-hidden">
-              <User className="text-zinc-500 h-6 w-6" />
-            </div>
-            <div className="hidden md:block">
-              <p className="text-sm font-bold">Local Player</p>
-              <p className="text-xs text-zinc-500">Offline Mode</p>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -250,13 +235,20 @@ export default function App() {
                       <Music2 className="w-96 h-96 text-orange-500" />
                     </div>
                     <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center">
-                      <div className="w-32 h-32 md:w-48 md:h-48 shrink-0 bg-zinc-900 rounded-full flex items-center justify-center border-4 border-orange-500 shadow-[0_0_40px_rgba(249,115,22,0.4)] overflow-hidden">
+                    <div className="w-32 h-32 md:w-48 md:h-48 shrink-0 bg-orange-500 rounded-full flex items-center justify-center border-4 border-orange-300 shadow-[0_0_40px_rgba(249,115,22,0.6)] overflow-hidden">
                         <motion.div 
                           animate={{ y: [0, -10, 0], scale: [1, 1.05, 1] }} 
                           transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-                          className="text-6xl md:text-7xl"
+                          className="w-full h-full flex items-center justify-center"
                         >
-                          🎸
+                          <svg viewBox="0 0 100 100" className="w-24 h-24 md:w-32 md:h-32 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M50 10 Q30 10 20 25 Q10 40 20 55 Q25 70 45 70 Q50 70 50 85 Q55 70 75 70 Q90 70 80 55 Q90 40 80 25 Q70 10 50 10" />
+                            <ellipse cx="35" cy="35" rx="5" ry="7" />
+                            <ellipse cx="65" cy="35" rx="5" ry="7" />
+                            <path d="M35 55 Q50 60 65 55" />
+                            <path d="M25 25 Q30 20 35 25" />
+                            <path d="M75 25 Q70 20 65 25" />
+                          </svg>
                         </motion.div>
                       </div>
                       <div className="text-center md:text-left flex-1">
@@ -1263,54 +1255,7 @@ export default function App() {
                 </div>
               )}
 
-              {activeTab === 'profile' && (
-                <div className="space-y-8">
-                  <div className="mb-8">
-                    <h2 className="text-3xl font-black flex items-center gap-3">
-                      <User className="text-orange-500" />
-                      Your Local Profile
-                    </h2>
-                    <p className="text-zinc-500">View your offline stats and achievements.</p>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Card className="bg-zinc-900 border-zinc-800 text-white col-span-1 flex flex-col items-center justify-center p-8 text-center">
-                      <div className="w-24 h-24 rounded-full bg-zinc-800 border-4 border-orange-500 flex items-center justify-center mb-4">
-                        <User className="text-zinc-500 h-12 w-12" />
-                      </div>
-                      <h3 className="text-2xl font-black">Local Player</h3>
-                      <p className="text-orange-500 font-bold mb-4">Offline Mode</p>
-                      <Badge variant="outline" className="border-zinc-700">Practice Ready</Badge>
-                    </Card>
-                    <Card className="bg-zinc-900 border-zinc-800 text-white col-span-2">
-                      <CardHeader>
-                        <CardTitle>Achievements</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="flex items-center gap-4 p-4 bg-zinc-800/50 rounded-xl border border-zinc-700/50">
-                            <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                              <BookOpen className="text-blue-500" />
-                            </div>
-                            <div>
-                              <p className="font-bold">Guitar Explorer</p>
-                              <p className="text-xs text-zinc-400">Ready to learn</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-4 p-4 bg-zinc-800/50 rounded-xl border border-zinc-700/50">
-                            <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-                              <Music2 className="text-purple-500" />
-                            </div>
-                            <div>
-                              <p className="font-bold">Chord Master</p>
-                              <p className="text-xs text-zinc-400">Discovering chords</p>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </div>
-              )}
+
             </motion.div>
           </AnimatePresence>
         </div>
