@@ -43,7 +43,7 @@ export const Fretboard: React.FC<FretboardProps> = ({
               style={{ flexGrow: Math.pow(0.94, fret) }} // Realistic fret spacing
             >
               {/* Fret Markers */}
-              {[3, 5, 7, 9, 12, 15].includes(fret) && (
+              {[3, 5, 7, 9, 12, 15, 17, 19, 21].includes(fret) && (
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                    {fret === 12 ? (
                      <div className="flex flex-col gap-8">

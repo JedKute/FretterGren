@@ -492,14 +492,15 @@ export default function App() {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-zinc-900/30 rounded-3xl border border-zinc-800 p-8">
-                      {selectedScale ? (
-                        <div className="space-y-8">
-                          <Fretboard 
-                            activeNotes={
-                              Array.from({ length: 6 }).flatMap((_, stringIndex) => 
-                                Array.from({ length: 15 }).map((_, fret) => ({ string: stringIndex, fret }))
-                              ).filter(({ string, fret }) => {
+                      <div className="bg-zinc-900/30 rounded-3xl border border-zinc-800 p-8">
+                        {selectedScale ? (
+                          <div className="space-y-8">
+                            <Fretboard 
+                              numFrets={22}
+                              activeNotes={
+                                Array.from({ length: 6 }).flatMap((_, stringIndex) => 
+                                  Array.from({ length: 22 }).map((_, fret) => ({ string: stringIndex, fret }))
+                                ).filter(({ string, fret }) => {
                                 const stringBaseNotes = [4, 11, 7, 2, 9, 4]; // E, B, G, D, A, E
                                 const noteIndex = (stringBaseNotes[string] + fret) % 12;
                                 const rootIndex = NOTES.indexOf(selectedScaleRoot);
@@ -572,9 +573,10 @@ export default function App() {
                       {selectedArpeggio ? (
                         <div className="space-y-8">
                           <Fretboard 
+                            numFrets={22}
                             activeNotes={
                               Array.from({ length: 6 }).flatMap((_, stringIndex) => 
-                                Array.from({ length: 15 }).map((_, fret) => ({ string: stringIndex, fret }))
+                                Array.from({ length: 22 }).map((_, fret) => ({ string: stringIndex, fret }))
                               ).filter(({ string, fret }) => {
                                 const stringBaseNotes = [4, 11, 7, 2, 9, 4]; // E, B, G, D, A, E
                                 const noteIndex = (stringBaseNotes[string] + fret) % 12;

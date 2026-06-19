@@ -172,6 +172,7 @@ export const VirtualGuitar: React.FC = () => {
       </div>
 
       <Fretboard
+        numFrets={22}
         activeNotes={activeNotes}
         onNoteClick={handleNoteClick}
         className="mt-8"
